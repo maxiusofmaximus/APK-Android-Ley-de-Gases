@@ -1,0 +1,17 @@
+# Dependencies
+web/node_modules/
+
+# Build outputs
+android/app/build/
+android/.gradle/
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

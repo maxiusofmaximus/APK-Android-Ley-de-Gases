@@ -1,0 +1,61 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: $spacing-unit * 1.5;
+    width: 100%;
+}
+
+.card {
+    height: 150px;
+    perspective: 1000px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+
+    &:hover .inner {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: $transition-flip, $transition-hover;
+        transform-style: preserve-3d;
+        box-shadow: 0 4px 8px $card-shadow;
+        border-radius: $border-radius;
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: $spacing-unit;
+            box-sizing: border-box;
+            border-radius: $border-radius;
+            font-weight: $font-weight-bold;
+        }
+
+        .front {
+            background: $white;
+            color: $dark-blue;
+            border: 2px solid $primary-blue;
+        }
+
+        .back {
+            background: $primary-blue;
+            color: $white;
+            transform: rotateY(180deg);
+        }
+    }
+
+    &.flip .inner {
+        transform: rotateY(180deg);
+    }
+}
