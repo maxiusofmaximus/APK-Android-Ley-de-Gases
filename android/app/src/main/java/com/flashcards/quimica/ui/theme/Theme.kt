@@ -20,8 +20,11 @@ fun FlashcardsQuimicaTheme(content: @Composable () -> Unit) {
     val colorScheme = LightColorScheme
     val view = LocalView.current
     if (!view.isInEditMode) {
-        WindowCompat.setDecorFitsSystemWindows(view.window, true)
-        view.window.statusBarColor = colorScheme.primary.toArgb()
+        val activity = view.context as? Activity
+        activity?.window?.let { window ->
+            window.statusBarColor = colorScheme.primary.toArgb()
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        }
     }
     MaterialTheme(colorScheme = colorScheme, typography = Typography, content = content)
 }
