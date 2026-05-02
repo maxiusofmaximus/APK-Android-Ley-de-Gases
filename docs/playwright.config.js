@@ -1,4 +1,4 @@
-module.exports = defineConfig({
+module.exports = {
     testDir: './tests',
     timeout: 30000,
     use: {
@@ -10,4 +10,4 @@ module.exports = defineConfig({
         port: 3000,
         reuseExistingServer: true,
     },
-});
+};
