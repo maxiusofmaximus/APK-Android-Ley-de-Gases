@@ -122,25 +122,30 @@
 
         <!-- Examen View -->
         <div id="view-examen" class="d-none">
-            <div class="examen-container">
+            <div class="examen-container position-relative">
                 <div class="examen-progress-text mb-3 text-center fw-bold text-secondary">
                     Tarjeta <span id="examen-current-idx">1</span> de <span id="examen-total">15</span>
                 </div>
-                <div id="examen-card-container" class="examen-card-wrapper d-flex justify-content-center mb-4">
-                    <!-- Single card goes here -->
-                </div>
-                <div class="examen-controls text-center" id="examen-controls">
-                    <button class="btn-siguiente" id="btn-next-examen">
-                        Siguiente <i class="bi bi-arrow-right ms-1"></i>
+                
+                <div class="position-relative d-flex align-items-center justify-content-center mb-4 px-4" style="min-height: 280px;" id="examen-main-area">
+                    <div id="examen-card-container" class="examen-card-wrapper w-100 h-100">
+                        <!-- Single card goes here -->
+                    </div>
+
+                    <!-- Next Button as Carousel Control -->
+                    <button class="btn btn-primary rounded-circle shadow position-absolute end-0 z-2 d-flex align-items-center justify-content-center" id="btn-next-examen" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%);">
+                        <i class="bi bi-chevron-right fs-4"></i>
                     </button>
-                </div>
-                <div id="examen-end-message" class="examen-end text-center d-none">
-                    <div class="display-1 mb-3">🥳</div>
-                    <h2 class="fw-bold gradient-text">¡Has finalizado!</h2>
-                    <p class="text-secondary mt-2 mb-4">Excelente trabajo repasando tus conocimientos. ¡Estás listo para dominar la Ley de Gases!</p>
-                    <button class="btn-repetir" id="btn-restart-examen">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i> Repetir Examen
-                    </button>
+                    
+                    <!-- Centered End Message -->
+                    <div id="examen-end-message" class="examen-end text-center d-none position-absolute w-100 h-100 flex-column align-items-center justify-content-center bg-transparent z-3" style="top: 0; left: 0;">
+                        <div class="display-1 mb-3">🥳</div>
+                        <h2 class="fw-bold gradient-text">¡Has finalizado!</h2>
+                        <p class="text-secondary mt-2 mb-4">Excelente trabajo repasando tus conocimientos.</p>
+                        <button class="btn-repetir" id="btn-restart-examen">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i> Repetir Examen
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

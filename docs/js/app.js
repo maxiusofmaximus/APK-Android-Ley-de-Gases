@@ -173,6 +173,11 @@ function resetProgress() {
         card.classList.remove('flip');
     });
     updateProgress();
+    
+    // Also reset Examen if active
+    if (!document.getElementById('view-examen').classList.contains('d-none')) {
+        initExamen();
+    }
 }
 
 // ============================================
@@ -240,8 +245,9 @@ function initExamen() {
     currentExamenIndex = 0;
     document.getElementById('examen-total').textContent = flashcards.length;
     
-    document.getElementById('examen-controls').classList.remove('d-none');
+    document.getElementById('btn-next-examen').classList.remove('d-none');
     document.getElementById('examen-end-message').classList.add('d-none');
+    document.getElementById('examen-end-message').classList.remove('d-flex');
     document.querySelector('.examen-progress-text').classList.remove('d-none');
     
     renderExamenCard();
@@ -254,9 +260,10 @@ function renderExamenCard() {
     if (currentExamenIndex >= flashcards.length) {
         // Exam finished
         container.innerHTML = '';
-        document.getElementById('examen-controls').classList.add('d-none');
+        document.getElementById('btn-next-examen').classList.add('d-none');
         document.querySelector('.examen-progress-text').classList.add('d-none');
         document.getElementById('examen-end-message').classList.remove('d-none');
+        document.getElementById('examen-end-message').classList.add('d-flex');
         return;
     }
     

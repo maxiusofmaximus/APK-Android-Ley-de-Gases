@@ -278,7 +278,9 @@ fun FlashcardApp() {
         }
     } // end LazyVerticalGrid
 } else {
-    ExamenScreen(isDark = isDark)
+    key(resetTrigger) {
+        ExamenScreen(isDark = isDark)
+    }
 }
         }
     }
@@ -308,7 +310,6 @@ fun ExamenScreen(isDark: Boolean) {
     var examenOrder by remember { mutableStateOf(flashcards.indices.shuffled()) }
     var currentIndex by remember { mutableStateOf(0) }
     
-    val bgColor = MaterialTheme.colorScheme.background
     val isFinished = currentIndex >= flashcards.size
 
     Column(
@@ -325,56 +326,70 @@ fun ExamenScreen(isDark: Boolean) {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Spacer(modifier = Modifier.height(32.dp))
-            
-            Box(modifier = Modifier.height(250.dp).width(300.dp)) {
-                FlashcardItem(
-                    flashcard = flashcards[examenOrder[currentIndex]],
-                    isDark = isDark,
-                    onFlip = {}
-                )
-            }
-            
-            Spacer(modifier = Modifier.height(32.dp))
-            
-            Button(
-                onClick = { currentIndex++ },
-                colors = ButtonDefaults.buttonColors(containerColor = Indigo),
-                modifier = Modifier.height(50.dp).padding(horizontal = 16.dp)
-            ) {
-                Text("Siguiente", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.width(8.dp))
-                Text("→", fontSize = 18.sp)
-            }
         } else {
-            Text(
-                text = "🥳",
-                fontSize = 64.sp
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "¡Has finalizado!",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Indigo,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Excelente trabajo repasando tus conocimientos. ¡Estás listo para dominar la Ley de Gases!",
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            OutlinedButton(
-                onClick = {
-                    examenOrder = flashcards.indices.shuffled()
-                    currentIndex = 0
-                },
-                modifier = Modifier.height(50.dp)
-            ) {
-                Text("🔄 Repetir Examen", fontSize = 16.sp)
+            Spacer(modifier = Modifier.height(22.dp))
+        }
+        
+        Spacer(modifier = Modifier.height(32.dp))
+        
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            if (!isFinished) {
+                Box(modifier = Modifier.height(250.dp).width(280.dp)) {
+                    FlashcardItem(
+                        flashcard = flashcards[examenOrder[currentIndex]],
+                        isDark = isDark,
+                        onFlip = {}
+                    )
+                }
+                
+                IconButton(
+                    onClick = { currentIndex++ },
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .size(50.dp)
+                        .background(Indigo, CircleShape)
+                ) {
+                    Text("→", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                }
+            } else {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "🥳",
+                        fontSize = 64.sp
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "¡Has finalizado!",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Indigo,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Excelente trabajo repasando tus conocimientos.",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                    OutlinedButton(
+                        onClick = {
+                            examenOrder = flashcards.indices.shuffled()
+                            currentIndex = 0
+                        }
+                    ) {
+                        Text("🔄 Repetir Examen")
+                    }
+                }
             }
         }
     }
