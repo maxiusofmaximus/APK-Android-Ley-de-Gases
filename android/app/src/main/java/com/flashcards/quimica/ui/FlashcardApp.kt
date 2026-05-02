@@ -347,6 +347,18 @@ fun ExamenScreen(isDark: Boolean) {
                     )
                 }
                 
+                if (currentIndex > 0) {
+                    IconButton(
+                        onClick = { currentIndex-- },
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .size(50.dp)
+                            .background(Indigo, CircleShape)
+                    ) {
+                        Text("←", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+                
                 IconButton(
                     onClick = { currentIndex++ },
                     modifier = Modifier

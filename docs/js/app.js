@@ -35,13 +35,17 @@ let cardElements = [];
 // ============================================
 // Card Creation
 // ============================================
-function createFlashcard(item, index) {
+function createFlashcard(item, index, noDelay = false) {
     const card = document.createElement('button');
     card.className = 'card';
     card.setAttribute('aria-label', `Tarjeta: ${item.q}`);
     card.dataset.category = item.category;
     card.dataset.index = index;
-    card.style.setProperty('--card-delay', `${index * 0.08}s`);
+    if (!noDelay) {
+        card.style.setProperty('--card-delay', `${index * 0.08}s`);
+    } else {
+        card.style.setProperty('--card-delay', `0s`);
+    }
 
     const categoryColors = {
         conversiones: 'var(--cat-conversiones)',
@@ -271,14 +275,31 @@ function renderExamenCard() {
     
     const cardIndex = examenOrder[currentExamenIndex];
     const item = flashcards[cardIndex];
-    const card = createFlashcard(item, cardIndex);
+    const card = createFlashcard(item, cardIndex, true); // true for noDelay
     card.classList.add('card-enter');
     container.appendChild(card);
+    
+    // Toggle prev button visibility
+    const prevBtn = document.getElementById('btn-prev-examen');
+    if (prevBtn) {
+        if (currentExamenIndex === 0) {
+            prevBtn.style.display = 'none';
+        } else {
+            prevBtn.style.display = 'flex';
+        }
+    }
 }
 
 function nextExamenCard() {
     currentExamenIndex++;
     renderExamenCard();
+}
+
+function prevExamenCard() {
+    if (currentExamenIndex > 0) {
+        currentExamenIndex--;
+        renderExamenCard();
+    }
 }
 
 function switchView(viewName) {
@@ -324,6 +345,8 @@ function init() {
     
     // Examen listeners
     document.getElementById('btn-next-examen').addEventListener('click', nextExamenCard);
+    const prevBtn = document.getElementById('btn-prev-examen');
+    if (prevBtn) prevBtn.addEventListener('click', prevExamenCard);
     document.getElementById('btn-restart-examen').addEventListener('click', initExamen);
 
     // Filter buttons
