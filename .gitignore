@@ -1,9 +1,13 @@
 # Dependencies
-web/node_modules/
+docs/node_modules/
 
 # Build outputs
 android/app/build/
 android/.gradle/
+android/build/
+
+# Local config
+android/local.properties
 
 # IDE
 .idea/
@@ -15,3 +19,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Test results
+docs/test-results/
+
+# Sass cache
+.sass-cache/

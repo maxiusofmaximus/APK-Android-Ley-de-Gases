@@ -9,6 +9,7 @@
     "bootstrap": "^5.3.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "sass": "^1.69.5"
   }
 }

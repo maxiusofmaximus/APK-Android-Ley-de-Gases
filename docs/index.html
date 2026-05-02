@@ -1,25 +1,125 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards Química - Ley de Gases</title>
-    <meta name="description" content="Tarjetas educativas de química sobre Ley de Gases. Aprende y repasa conceptos de forma interactiva.">
+    <title>Flashcards Química — Ley de Gases</title>
+    <meta name="description" content="Aprende la Ley de Gases con tarjetas interactivas premium. Conversiones, constantes y leyes fundamentales de la química.">
+    <meta name="keywords" content="flashcards, química, ley de gases, Boyle, Charles, Gay-Lussac, gas ideal, estudio">
+    <meta name="author" content="maxiusofmaximus">
+    <meta property="og:title" content="Flashcards Química — Ley de Gases">
+    <meta property="og:description" content="Tarjetas educativas interactivas para aprender la Ley de Gases">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <main class="container py-4">
-        <header class="text-center mb-4">
-            <h1 class="display-5 fw-bold text-primary">📚 Flashcards de Química</h1>
-            <p class="lead text-muted">Aprende la Ley de Gases con tarjetas interactivas</p>
-        </header>
+    <!-- Animated background particles -->
+    <div class="bg-particles" aria-hidden="true">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="main-nav">
+        <div class="nav-brand">
+            <span class="nav-logo">🧪</span>
+            <span class="nav-title">QuímicaCards</span>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-icon" id="btn-shuffle" title="Mezclar tarjetas" aria-label="Mezclar tarjetas">
+                <i class="bi bi-shuffle"></i>
+            </button>
+            <button class="btn-icon" id="btn-reset" title="Reiniciar progreso" aria-label="Reiniciar progreso">
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+            <button class="btn-icon" id="btn-theme" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">
+                <i class="bi bi-moon-stars-fill"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">📚 Estudio Interactivo</div>
+            <h1 class="hero-title">
+                Ley de <span class="gradient-text">Gases</span>
+            </h1>
+            <p class="hero-subtitle">Domina las conversiones, constantes y leyes fundamentales con tarjetas interactivas</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="stat-total">15</span>
+                    <span class="stat-label">Tarjetas</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" id="stat-viewed">0</span>
+                    <span class="stat-label">Revisadas</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" id="stat-percent">0%</span>
+                    <span class="stat-label">Progreso</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-container" id="filters">
+        <button class="filter-btn active" data-category="all">
+            <i class="bi bi-grid-3x3-gap-fill"></i> Todas
+        </button>
+        <button class="filter-btn" data-category="conversiones">
+            <i class="bi bi-arrow-left-right"></i> Conversiones
+        </button>
+        <button class="filter-btn" data-category="constantes">
+            <i class="bi bi-hash"></i> Constantes
+        </button>
+        <button class="filter-btn" data-category="leyes">
+            <i class="bi bi-book"></i> Leyes
+        </button>
+        <button class="filter-btn" data-category="formulas">
+            <i class="bi bi-calculator"></i> Fórmulas
+        </button>
+    </div>
+
+    <!-- Flashcards Grid -->
+    <main class="cards-container">
         <section id="flashcards-container" class="grid" aria-label="Tarjetas de química"></section>
-        <footer class="text-center mt-4 text-muted">
-            <small>Toca una tarjeta para ver la respuesta</small>
-        </footer>
     </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span>🧪</span> QuímicaCards
+            </div>
+            <p class="footer-text">Hecho con 💜 para estudiantes de química</p>
+            <div class="footer-links">
+                <a href="https://github.com/maxiusofmaximus/APK-Android-Ley-de-Gases" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
 </body>

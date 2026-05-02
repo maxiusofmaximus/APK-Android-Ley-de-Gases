@@ -1,0 +1,43 @@
+// ============================================
+// Dark Mode Overrides
+// ============================================
+
+[data-theme="dark"] {
+    --bg-primary: #{$dark-bg-primary};
+    --bg-secondary: #{$dark-bg-secondary};
+    --bg-card: #{$dark-bg-card};
+    --text-primary: #{$dark-text-primary};
+    --text-secondary: #{$dark-text-secondary};
+    --border-color: #{$dark-border-color};
+    --glass-bg: #{$dark-glass-bg};
+    --glass-border: #{$dark-glass-border};
+
+    .particle {
+        opacity: 0.15;
+    }
+
+    .hero-badge {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    }
+
+    .btn-icon {
+        background: rgba(30, 30, 60, 0.6);
+        border-color: $dark-border-color;
+    }
+
+    .card-front {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-back {
+        background: linear-gradient(135deg, $primary, #7c3aed);
+    }
+
+    .site-footer {
+        background: rgba(15, 15, 35, 0.8);
+    }
+
+    .progress-bar {
+        background: rgba(99, 102, 241, 0.15);
+    }
+}
