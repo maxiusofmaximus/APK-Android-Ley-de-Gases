@@ -240,9 +240,9 @@ function initExamen() {
     currentExamenIndex = 0;
     document.getElementById('examen-total').textContent = flashcards.length;
     
-    document.getElementById('examen-controls').classList.remove('hidden');
-    document.getElementById('examen-end-message').classList.add('hidden');
-    document.querySelector('.examen-progress-text').classList.remove('hidden');
+    document.getElementById('examen-controls').classList.remove('d-none');
+    document.getElementById('examen-end-message').classList.add('d-none');
+    document.querySelector('.examen-progress-text').classList.remove('d-none');
     
     renderExamenCard();
 }
@@ -254,9 +254,9 @@ function renderExamenCard() {
     if (currentExamenIndex >= flashcards.length) {
         // Exam finished
         container.innerHTML = '';
-        document.getElementById('examen-controls').classList.add('hidden');
-        document.querySelector('.examen-progress-text').classList.add('hidden');
-        document.getElementById('examen-end-message').classList.remove('hidden');
+        document.getElementById('examen-controls').classList.add('d-none');
+        document.querySelector('.examen-progress-text').classList.add('d-none');
+        document.getElementById('examen-end-message').classList.remove('d-none');
         return;
     }
     
@@ -281,13 +281,13 @@ function switchView(viewName) {
     const navExamen = document.getElementById('nav-examen');
     
     if (viewName === 'tarjetas') {
-        viewTarjetas.classList.remove('hidden');
-        viewExamen.classList.add('hidden');
+        viewTarjetas.classList.remove('d-none');
+        viewExamen.classList.add('d-none');
         navTarjetas.classList.add('active');
         navExamen.classList.remove('active');
     } else {
-        viewTarjetas.classList.add('hidden');
-        viewExamen.classList.remove('hidden');
+        viewTarjetas.classList.add('d-none');
+        viewExamen.classList.remove('d-none');
         navTarjetas.classList.remove('active');
         navExamen.classList.add('active');
         initExamen();

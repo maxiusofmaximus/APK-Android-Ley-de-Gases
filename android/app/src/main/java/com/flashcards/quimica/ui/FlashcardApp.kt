@@ -6,10 +6,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -40,6 +45,7 @@ fun FlashcardApp() {
     var reviewedSet by remember { mutableStateOf(setOf<Int>()) }
     var currentScreen by remember { mutableStateOf(Screen.TARJETAS) }
     var menuExpanded by remember { mutableStateOf(false) }
+    var resetTrigger by remember { mutableStateOf(0) }
 
     val filteredCards = if (selectedCategory == Category.ALL) cardList
         else cardList.filter { it.category == selectedCategory.label }
@@ -68,7 +74,7 @@ fun FlashcardApp() {
                 actions = {
                     Box {
                         IconButton(onClick = { menuExpanded = !menuExpanded }) {
-                            Text("☰", fontSize = 20.sp)
+                            Icon(imageVector = Icons.Default.Menu, contentDescription = "Menú", tint = Indigo)
                         }
                         DropdownMenu(
                             expanded = menuExpanded,
@@ -98,6 +104,7 @@ fun FlashcardApp() {
                     IconButton(onClick = {
                         reviewedSet = setOf()
                         cardList = flashcards
+                        resetTrigger++
                     }) {
                         Text("🔄", fontSize = 20.sp)
                     }
@@ -113,10 +120,19 @@ fun FlashcardApp() {
             )
 
             if (currentScreen == Screen.TARJETAS) {
-                // ═══ HERO SECTION ═══
-                Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                // ═══ CARDS GRID ═══
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        // ═══ HERO SECTION ═══
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
                     .background(
                         Brush.verticalGradient(
                             colors = if (isDark) listOf(
@@ -209,13 +225,16 @@ fun FlashcardApp() {
                         fontWeight = FontWeight.SemiBold
                     )
                 }
+                }
             }
 
-            // ═══ CATEGORY FILTERS ═══
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                // ═══ CATEGORY FILTERS ═══
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp, vertical = 8.dp)
+                        .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Category.entries.forEach { cat ->
@@ -244,30 +263,23 @@ fun FlashcardApp() {
                     }
                 }
             }
+        } // end item
 
-            // ═══ CARDS GRID ═══
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(filteredCards, key = { it.question }) { flashcard ->
-                    FlashcardItem(
-                        flashcard = flashcard,
-                        isDark = isDark,
-                        onFlip = { flipped ->
-                            if (flipped) {
-                                reviewedSet = reviewedSet + flashcards.indexOf(flashcard)
-                            }
-                        }
-                    )
+        items(filteredCards, key = { it.question + resetTrigger.toString() }) { flashcard ->
+            FlashcardItem(
+                flashcard = flashcard,
+                isDark = isDark,
+                onFlip = { flipped ->
+                    if (flipped) {
+                        reviewedSet = reviewedSet + flashcards.indexOf(flashcard)
+                    }
                 }
-            }
-            } else {
-                ExamenScreen(isDark = isDark)
-            }
+            )
+        }
+    } // end LazyVerticalGrid
+} else {
+    ExamenScreen(isDark = isDark)
+}
         }
     }
 }
