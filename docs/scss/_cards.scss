@@ -217,9 +217,9 @@
 }
 
 .custom-dropdown {
-    background: var(--glass-bg);
-    backdrop-filter: blur($glass-blur);
-    border: 1px solid var(--glass-border);
+    background: var(--bg-secondary);
+    backdrop-filter: none;
+    border: 1px solid var(--border-color);
     
     .dropdown-item {
         color: var(--text-primary);
