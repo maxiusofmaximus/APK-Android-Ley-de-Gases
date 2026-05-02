@@ -8,15 +8,21 @@ const flashcards = [
     { q: "1 atm en mmHg", a: "760 mmHg", category: "conversiones", icon: "🔄" },
     { q: "1 Pa en atm", a: "9.86 × 10⁻⁶ atm", category: "conversiones", icon: "🔄" },
     { q: "1 atm en Pa", a: "101,325 Pa", category: "conversiones", icon: "🔄" },
+
     { q: "Temperatura Normal", a: "273.15 K", category: "constantes", icon: "🌡️" },
     { q: "Presión Normal", a: "1 atm", category: "constantes", icon: "⚖️" },
     { q: "Volumen normal", a: "22.4 L", category: "constantes", icon: "📦" },
     { q: "Número de Avogadro", a: "6.022 × 10²³", category: "constantes", icon: "🔢" },
     { q: "Constante R", a: "0.082 L·atm/mol·K", category: "constantes", icon: "®️" },
+
     { q: "Ley de Boyle", a: "V₁P₁ = V₂P₂ (T y n constantes)", category: "leyes", icon: "📐" },
     { q: "Ley de Charles", a: "V₁/T₁ = V₂/T₂ (P y n constantes)", category: "leyes", icon: "📐" },
     { q: "Ley de Gay-Lussac", a: "P₁/T₁ = P₂/T₂ (V y n constantes)", category: "leyes", icon: "📐" },
     { q: "Gas Ideal", a: "PV = nRT", category: "leyes", icon: "⚗️" },
+
+    { q: "Ley de Dalton", a: "PT = P1 + P2 + P3...", category: "leyes", icon: "📐" },
+    { q: "Presiones Parciales", a: "Pi = Xi · PT", category: "leyes", icon: "📐" },
+
     { q: "Densidad de un gas", a: "P = dRT / M", category: "formulas", icon: "🧮" },
     { q: "Peso Molecular", a: "PV = mRT / M", category: "formulas", icon: "🧮" }
 ];
