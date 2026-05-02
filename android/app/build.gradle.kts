@@ -12,8 +12,8 @@ android {
         applicationId = "com.flashcards.quimica"
         minSdk = 24
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.2.5"
+        versionCode = 6
+        versionName = "1.2.6"
     }
 
     compileOptions {

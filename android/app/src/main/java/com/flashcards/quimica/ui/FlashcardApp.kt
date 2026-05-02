@@ -353,9 +353,8 @@ fun ExamenScreen(isDark: Boolean) {
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .size(50.dp)
-                            .background(Indigo, CircleShape)
                     ) {
-                        Text("←", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Text("←", color = if (isDark) Color.White.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.5f), fontSize = 32.sp, fontWeight = FontWeight.Light)
                     }
                 }
                 
@@ -364,9 +363,8 @@ fun ExamenScreen(isDark: Boolean) {
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .size(50.dp)
-                        .background(Indigo, CircleShape)
-                ) {
-                    Text("→", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    ) {
+                    Text("→", color = if (isDark) Color.White.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.5f), fontSize = 32.sp, fontWeight = FontWeight.Light)
                 }
             } else {
                 Column(
