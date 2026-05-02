@@ -35,6 +35,16 @@
             <span class="nav-title">QuímicaCards</span>
         </div>
         <div class="nav-actions">
+            <!-- Dropdown Menu -->
+            <div class="dropdown">
+                <button class="btn-icon" id="btn-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Menú principal" aria-label="Menú principal">
+                    <i class="bi bi-list"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow custom-dropdown">
+                    <li><a class="dropdown-item active" href="#" id="nav-tarjetas"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Tarjetas</a></li>
+                    <li><a class="dropdown-item" href="#" id="nav-examen"><i class="bi bi-ui-checks-grid me-2"></i>Examen</a></li>
+                </ul>
+            </div>
             <button class="btn-icon" id="btn-shuffle" title="Mezclar tarjetas" aria-label="Mezclar tarjetas">
                 <i class="bi bi-shuffle"></i>
             </button>
@@ -81,29 +91,60 @@
         </div>
     </div>
 
-    <!-- Filter Tabs -->
-    <div class="filter-container" id="filters">
-        <button class="filter-btn active" data-category="all">
-            <i class="bi bi-grid-3x3-gap-fill"></i> Todas
-        </button>
-        <button class="filter-btn" data-category="conversiones">
-            <i class="bi bi-arrow-left-right"></i> Conversiones
-        </button>
-        <button class="filter-btn" data-category="constantes">
-            <i class="bi bi-hash"></i> Constantes
-        </button>
-        <button class="filter-btn" data-category="leyes">
-            <i class="bi bi-book"></i> Leyes
-        </button>
-        <button class="filter-btn" data-category="formulas">
-            <i class="bi bi-calculator"></i> Fórmulas
-        </button>
-    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Tarjetas View -->
+        <div id="view-tarjetas">
+            <!-- Filter Tabs -->
+            <div class="filter-container" id="filters">
+                <button class="filter-btn active" data-category="all">
+                    <i class="bi bi-grid-3x3-gap-fill"></i> Todas
+                </button>
+                <button class="filter-btn" data-category="conversiones">
+                    <i class="bi bi-arrow-left-right"></i> Conversiones
+                </button>
+                <button class="filter-btn" data-category="constantes">
+                    <i class="bi bi-hash"></i> Constantes
+                </button>
+                <button class="filter-btn" data-category="leyes">
+                    <i class="bi bi-book"></i> Leyes
+                </button>
+                <button class="filter-btn" data-category="formulas">
+                    <i class="bi bi-calculator"></i> Fórmulas
+                </button>
+            </div>
 
-    <!-- Flashcards Grid -->
-    <main class="cards-container">
-        <section id="flashcards-container" class="grid" aria-label="Tarjetas de química"></section>
-    </main>
+            <!-- Flashcards Grid -->
+            <main class="cards-container">
+                <section id="flashcards-container" class="grid" aria-label="Tarjetas de química"></section>
+            </main>
+        </div>
+
+        <!-- Examen View -->
+        <div id="view-examen" class="hidden">
+            <div class="examen-container">
+                <div class="examen-progress-text mb-3 text-center fw-bold text-secondary">
+                    Tarjeta <span id="examen-current-idx">1</span> de <span id="examen-total">15</span>
+                </div>
+                <div id="examen-card-container" class="examen-card-wrapper d-flex justify-content-center mb-4">
+                    <!-- Single card goes here -->
+                </div>
+                <div class="examen-controls text-center" id="examen-controls">
+                    <button class="btn-siguiente" id="btn-next-examen">
+                        Siguiente <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </div>
+                <div id="examen-end-message" class="examen-end text-center hidden">
+                    <div class="display-1 mb-3">🥳</div>
+                    <h2 class="fw-bold gradient-text">¡Has finalizado!</h2>
+                    <p class="text-secondary mt-2 mb-4">Excelente trabajo repasando tus conocimientos. ¡Estás listo para dominar la Ley de Gases!</p>
+                    <button class="btn-repetir" id="btn-restart-examen">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i> Repetir Examen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="site-footer">

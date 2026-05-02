@@ -27,6 +27,10 @@ import com.flashcards.quimica.data.flashcards
 import com.flashcards.quimica.ui.components.FlashcardItem
 import com.flashcards.quimica.ui.theme.*
 
+enum class Screen {
+    TARJETAS, EXAMEN
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FlashcardApp() {
@@ -34,6 +38,8 @@ fun FlashcardApp() {
     var selectedCategory by remember { mutableStateOf(Category.ALL) }
     var cardList by remember { mutableStateOf(flashcards) }
     var reviewedSet by remember { mutableStateOf(setOf<Int>()) }
+    var currentScreen by remember { mutableStateOf(Screen.TARJETAS) }
+    var menuExpanded by remember { mutableStateOf(false) }
 
     val filteredCards = if (selectedCategory == Category.ALL) cardList
         else cardList.filter { it.category == selectedCategory.label }
@@ -60,6 +66,30 @@ fun FlashcardApp() {
                     )
                 },
                 actions = {
+                    Box {
+                        IconButton(onClick = { menuExpanded = !menuExpanded }) {
+                            Text("☰", fontSize = 20.sp)
+                        }
+                        DropdownMenu(
+                            expanded = menuExpanded,
+                            onDismissRequest = { menuExpanded = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("📋 Tarjetas") },
+                                onClick = {
+                                    currentScreen = Screen.TARJETAS
+                                    menuExpanded = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("📝 Examen") },
+                                onClick = {
+                                    currentScreen = Screen.EXAMEN
+                                    menuExpanded = false
+                                }
+                            )
+                        }
+                    }
                     // Shuffle
                     IconButton(onClick = { cardList = cardList.shuffled() }) {
                         Text("🔀", fontSize = 20.sp)
@@ -82,8 +112,9 @@ fun FlashcardApp() {
                 )
             )
 
-            // ═══ HERO SECTION ═══
-            Column(
+            if (currentScreen == Screen.TARJETAS) {
+                // ═══ HERO SECTION ═══
+                Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
@@ -234,6 +265,9 @@ fun FlashcardApp() {
                     )
                 }
             }
+            } else {
+                ExamenScreen(isDark = isDark)
+            }
         }
     }
 }
@@ -254,5 +288,82 @@ fun StatItem(value: String, label: String, color: Color, isDark: Boolean) {
             color = if (isDark) TextSecondaryDark else TextSecondary,
             letterSpacing = 1.5.sp
         )
+    }
+}
+
+@Composable
+fun ExamenScreen(isDark: Boolean) {
+    var examenOrder by remember { mutableStateOf(flashcards.indices.shuffled()) }
+    var currentIndex by remember { mutableStateOf(0) }
+    
+    val bgColor = MaterialTheme.colorScheme.background
+    val isFinished = currentIndex >= flashcards.size
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (!isFinished) {
+            Text(
+                text = "Tarjeta ${currentIndex + 1} de ${flashcards.size}",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            Box(modifier = Modifier.height(250.dp).width(300.dp)) {
+                FlashcardItem(
+                    flashcard = flashcards[examenOrder[currentIndex]],
+                    isDark = isDark,
+                    onFlip = {}
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            Button(
+                onClick = { currentIndex++ },
+                colors = ButtonDefaults.buttonColors(containerColor = Indigo),
+                modifier = Modifier.height(50.dp).padding(horizontal = 16.dp)
+            ) {
+                Text("Siguiente", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.width(8.dp))
+                Text("→", fontSize = 18.sp)
+            }
+        } else {
+            Text(
+                text = "🥳",
+                fontSize = 64.sp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "¡Has finalizado!",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Indigo,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Excelente trabajo repasando tus conocimientos. ¡Estás listo para dominar la Ley de Gases!",
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            OutlinedButton(
+                onClick = {
+                    examenOrder = flashcards.indices.shuffled()
+                    currentIndex = 0
+                },
+                modifier = Modifier.height(50.dp)
+            ) {
+                Text("🔄 Repetir Examen", fontSize = 16.sp)
+            }
+        }
     }
 }

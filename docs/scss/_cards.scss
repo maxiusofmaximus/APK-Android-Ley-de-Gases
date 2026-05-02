@@ -172,3 +172,60 @@
         height: 180px;
     }
 }
+
+// ============================================
+// Examen View Styles
+// ============================================
+
+.examen-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: $spacing-xl;
+    animation: slide-up 0.5s ease-out;
+}
+
+.examen-card-wrapper {
+    min-height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .card {
+        width: 100%;
+        max-width: 400px;
+        height: 250px;
+        margin: 0 auto;
+    }
+}
+
+.btn-siguiente, .btn-repetir {
+    padding: $spacing-md $spacing-xl;
+    border: none;
+    border-radius: $radius-full;
+    background: linear-gradient(135deg, $primary, $secondary);
+    color: white;
+    font-size: $font-size-base;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: $shadow-md;
+    transition: transform $transition-fast, box-shadow $transition-fast;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+}
+
+.custom-dropdown {
+    background: var(--glass-bg);
+    backdrop-filter: blur($glass-blur);
+    border: 1px solid var(--glass-border);
+    
+    .dropdown-item {
+        color: var(--text-primary);
+        &:hover, &.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: $primary;
+        }
+    }
+}
