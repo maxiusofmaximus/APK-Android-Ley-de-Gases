@@ -1,41 +1,258 @@
 package com.flashcards.quimica.ui
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flashcards.quimica.data.Category
+import com.flashcards.quimica.data.Flashcard
 import com.flashcards.quimica.data.flashcards
 import com.flashcards.quimica.ui.components.FlashcardItem
+import com.flashcards.quimica.ui.theme.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FlashcardApp() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF0F2F5))
-            .padding(20.dp)
-    ) {
+    var isDark by remember { mutableStateOf(false) }
+    var selectedCategory by remember { mutableStateOf(Category.ALL) }
+    var cardList by remember { mutableStateOf(flashcards) }
+    var reviewedSet by remember { mutableStateOf(setOf<Int>()) }
+
+    val filteredCards = if (selectedCategory == Category.ALL) cardList
+        else cardList.filter { it.category == selectedCategory.label }
+
+    val totalCards = flashcards.size
+    val reviewedCount = reviewedSet.size
+    val progressPercent = if (totalCards > 0) (reviewedCount * 100 / totalCards) else 0
+
+    FlashcardsQuimicaTheme(darkTheme = isDark) {
+        val bgColor = MaterialTheme.colorScheme.background
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(bgColor)
+        ) {
+            // ═══ TOP BAR ═══
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "🧪 QuímicaCards",
+                        fontWeight = FontWeight.Bold,
+                        color = Indigo
+                    )
+                },
+                actions = {
+                    // Shuffle
+                    IconButton(onClick = { cardList = cardList.shuffled() }) {
+                        Text("🔀", fontSize = 20.sp)
+                    }
+                    // Reset
+                    IconButton(onClick = {
+                        reviewedSet = setOf()
+                        cardList = flashcards
+                    }) {
+                        Text("🔄", fontSize = 20.sp)
+                    }
+                    // Dark mode toggle
+                    IconButton(onClick = { isDark = !isDark }) {
+                        Text(if (isDark) "☀️" else "🌙", fontSize = 20.sp)
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = bgColor,
+                    titleContentColor = Indigo
+                )
+            )
+
+            // ═══ HERO SECTION ═══
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = if (isDark) listOf(
+                                Color(0xFF1E1B4B).copy(alpha = 0.8f),
+                                Color(0xFF13121F)
+                            ) else listOf(
+                                Indigo.copy(alpha = 0.08f),
+                                bgColor
+                            )
+                        )
+                    )
+                    .padding(horizontal = 24.dp, vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Badge
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Indigo.copy(alpha = 0.15f))
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                ) {
+                    Text(
+                        text = "📚 Estudio Interactivo",
+                        fontSize = 12.sp,
+                        color = if (isDark) IndigoLight else Indigo,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+                Spacer(Modifier.height(12.dp))
+
+                // Title with gradient look
+                Text(
+                    text = "Ley de Gases",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                Text(
+                    text = "Domina las conversiones, constantes y leyes\nfundamentales con tarjetas interactivas",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 18.sp
+                )
+
+                Spacer(Modifier.height(20.dp))
+
+                // ═══ PROGRESS STATS ═══
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(
+                            if (isDark) CardDark.copy(alpha = 0.7f)
+                            else White.copy(alpha = 0.8f)
+                        )
+                        .padding(vertical = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    StatItem(value = "$totalCards", label = "TARJETAS", color = Indigo, isDark = isDark)
+                    StatItem(value = "$reviewedCount", label = "REVISADAS", color = Pink, isDark = isDark)
+                    StatItem(value = "$progressPercent%", label = "PROGRESO", color = Cyan, isDark = isDark)
+                }
+
+                Spacer(Modifier.height(12.dp))
+
+                // Progress bar
+                LinearProgressIndicator(
+                    progress = { progressPercent / 100f },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(6.dp)
+                        .clip(RoundedCornerShape(3.dp)),
+                    color = Indigo,
+                    trackColor = if (isDark) ProgressTrackDark else ProgressTrack,
+                )
+
+                // Completion message
+                if (progressPercent == 100) {
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = "🎉 ¡Felicidades! Has revisado todas las tarjetas",
+                        fontSize = 13.sp,
+                        color = Cyan,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            // ═══ CATEGORY FILTERS ═══
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Category.entries.forEach { cat ->
+                    val isSelected = selectedCategory == cat
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(
+                                if (isSelected) Indigo
+                                else if (isDark) CardDark else Color(0xFFF3F4F6)
+                            )
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) { selectedCategory = cat }
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = if (cat == Category.ALL) "📋 Todas" else "${cat.emoji} ${cat.label}",
+                            fontSize = 11.sp,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                            color = if (isSelected) White
+                                else MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+
+            // ═══ CARDS GRID ═══
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(filteredCards, key = { it.question }) { flashcard ->
+                    FlashcardItem(
+                        flashcard = flashcard,
+                        isDark = isDark,
+                        onFlip = { flipped ->
+                            if (flipped) {
+                                reviewedSet = reviewedSet + flashcards.indexOf(flashcard)
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun StatItem(value: String, label: String, color: Color, isDark: Boolean) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "📚 Mis Flashcards de Química",
+            text = value,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF2C3E50),
-            modifier = Modifier.padding(bottom = 20.dp)
+            color = color
         )
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 250.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            items(flashcards) { flashcard -> FlashcardItem(flashcard = flashcard) }
-        }
+        Text(
+            text = label,
+            fontSize = 9.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (isDark) TextSecondaryDark else TextSecondary,
+            letterSpacing = 1.5.sp
+        )
     }
 }
