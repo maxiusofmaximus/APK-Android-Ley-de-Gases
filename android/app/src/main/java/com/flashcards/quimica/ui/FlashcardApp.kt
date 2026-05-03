@@ -61,6 +61,7 @@ fun FlashcardApp() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(bgColor)
+                .systemBarsPadding()
         ) {
             // ═══ TOP BAR ═══
             TopAppBar(
@@ -98,7 +99,7 @@ fun FlashcardApp() {
                     }
                     // Shuffle
                     IconButton(onClick = { cardList = cardList.shuffled() }) {
-                        Text("🔀", fontSize = 20.sp)
+                        Text("🔀", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
                     }
                     // Reset
                     IconButton(onClick = {
@@ -106,11 +107,11 @@ fun FlashcardApp() {
                         cardList = flashcards
                         resetTrigger++
                     }) {
-                        Text("🔄", fontSize = 20.sp)
+                        Text("🔄", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
                     }
                     // Dark mode toggle
                     IconButton(onClick = { isDark = !isDark }) {
-                        Text(if (isDark) "☀️" else "🌙", fontSize = 20.sp)
+                        Text(if (isDark) "☀️" else "🌙", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -233,7 +234,7 @@ fun FlashcardApp() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 0.dp, vertical = 8.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                         .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {

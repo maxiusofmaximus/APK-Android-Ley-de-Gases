@@ -25,3 +25,6 @@ docs/test-results/
 
 # Sass cache
 .sass-cache/
+
+# Launcher project (separate repo)
+Launcher-APK-Ley-Gases/

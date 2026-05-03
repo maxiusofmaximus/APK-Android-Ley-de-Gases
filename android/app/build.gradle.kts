@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.flashcards.quimica"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.flashcards.quimica"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 6
         versionName = "1.2.6"
     }
