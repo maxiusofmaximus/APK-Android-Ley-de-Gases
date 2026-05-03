@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background Circle for a "Glass" look -->
+    <path
+        android:pathData="M54,54m-38,0a38,38 0,1 1,76 0a38,38 0,1 1,-76 0"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.15"/>
+
+    <!-- Chemistry Flask / Molecule Hybrid -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70,30c-2.2,0 -4,1.8 -4,4v2.5l-8,12l-8,-12v-2.5c0,-2.2 -1.8,-4 -4,-4s-4,1.8 -4,4v3.5l10.4,15.6c-5.5,3.3 -9.2,9.3 -9.2,16.2c0,10.5 8.5,19 19,19s19,-8.5 19,-19c0,-6.9 -3.7,-12.9 -9.2,-16.2l10.4,-15.6v-3.5c0,-2.2 -1.8,-4 -4,-4zM52.2,69.5c-4.4,0 -8,-3.6 -8,-8s3.6,-8 8,-8 8,3.6 8,8 -3.6,8 -8,8z"/>
+
+    <!-- Small decorative atoms/bubbles -->
+    <path
+        android:fillColor="#06B6D4"
+        android:pathData="M32,45m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
+    <path
+        android:fillColor="#EC4899"
+        android:pathData="M76,45m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"/>
+</vector>

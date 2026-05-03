@@ -72,20 +72,11 @@ fun FlashcardApp() {
             // ═══ TOP BAR ═══
             TopAppBar(
                 title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Image(
                             painter = painterResource(id = R.drawable.app_logo),
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp).clip(CircleShape)
-                        )
-                        Text(
-                            text = "Flashcards Quimica",
-                            fontWeight = FontWeight.Bold,
-                            color = Indigo,
-                            fontSize = 18.sp
+                            contentDescription = "Flashcards Quimica",
+                            modifier = Modifier.size(40.dp).clip(CircleShape)
                         )
                     }
                 },
