@@ -72,13 +72,11 @@ fun FlashcardApp() {
             // ═══ TOP BAR ═══
             TopAppBar(
                 title = {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Image(
-                            painter = painterResource(id = R.drawable.app_logo),
-                            contentDescription = "Flashcards Quimica",
-                            modifier = Modifier.size(60.dp).clip(CircleShape)
-                        )
-                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.app_logo),
+                        contentDescription = "Flashcards Quimica",
+                        modifier = Modifier.size(120.dp).padding(vertical = 4.dp)
+                    )
                 },
                 actions = {
                     Box {
