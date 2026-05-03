@@ -327,79 +327,93 @@ fun ExamenScreen(isDark: Boolean) {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-        } else {
-            Spacer(modifier = Modifier.height(22.dp))
-        }
-        
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            if (!isFinished) {
-                Box(modifier = Modifier.height(250.dp).width(280.dp)) {
-                    FlashcardItem(
-                        flashcard = flashcards[examenOrder[currentIndex]],
-                        isDark = isDark,
-                        onFlip = {}
-                    )
-                }
-                
-                if (currentIndex > 0) {
-                    IconButton(
-                        onClick = { currentIndex-- },
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .size(50.dp)
-                    ) {
-                        Text("←", color = if (isDark) Color.White.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.5f), fontSize = 32.sp, fontWeight = FontWeight.Light)
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(280.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                key(currentIndex) {
+                    Box(modifier = Modifier.height(250.dp).width(280.dp)) {
+                        FlashcardItem(
+                            flashcard = flashcards[examenOrder[currentIndex]],
+                            isDark = isDark,
+                            onFlip = {}
+                        )
                     }
                 }
-                
-                IconButton(
-                    onClick = { currentIndex++ },
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .size(50.dp)
-                    ) {
-                    Text("→", color = if (isDark) Color.White.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.5f), fontSize = 32.sp, fontWeight = FontWeight.Light)
-                }
-            } else {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+            }
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Anterior
+                Button(
+                    onClick = { if (currentIndex > 0) currentIndex-- },
+                    enabled = currentIndex > 0,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isDark) CardDark else Color(0xFFF3F4F6),
+                        contentColor = if (isDark) White else Indigo
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.weight(1f).padding(end = 8.dp)
                 ) {
-                    Text(
-                        text = "🥳",
-                        fontSize = 64.sp
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "¡Has finalizado!",
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Indigo,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Excelente trabajo repasando tus conocimientos.",
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.height(32.dp))
-                    OutlinedButton(
-                        onClick = {
-                            examenOrder = flashcards.indices.shuffled()
-                            currentIndex = 0
-                        }
-                    ) {
-                        Text("🔄 Repetir Examen")
-                    }
+                    Text("← Anterior")
+                }
+
+                // Siguiente / Finalizar
+                Button(
+                    onClick = { currentIndex++ },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Indigo,
+                        contentColor = White
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                ) {
+                    Text(if (currentIndex < flashcards.size - 1) "Siguiente →" else "Finalizar 🏁")
+                }
+            }
+        } else {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "🥳",
+                    fontSize = 64.sp
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "¡Has finalizado!",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Indigo,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Excelente trabajo repasando tus conocimientos.",
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                Button(
+                    onClick = {
+                        examenOrder = flashcards.indices.shuffled()
+                        currentIndex = 0
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Indigo)
+                ) {
+                    Text("🔄 Repetir Examen", color = White)
                 }
             }
         }
