@@ -13,10 +13,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -308,112 +311,95 @@ fun StatItem(value: String, label: String, color: Color, isDark: Boolean) {
 
 @Composable
 fun ExamenScreen(isDark: Boolean) {
-    var examenOrder by remember { mutableStateOf(flashcards.indices.shuffled()) }
-    var currentIndex by remember { mutableStateOf(0) }
-    
-    val isFinished = currentIndex >= flashcards.size
+    val totalCards = flashcards.size
+    val examenOrder by remember { mutableStateOf(flashcards.indices.shuffled()) }
+    val pagerState = rememberPagerState(pageCount = { totalCards + 1 })
+    val coroutineScope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (!isFinished) {
-            Text(
-                text = "Tarjeta ${currentIndex + 1} de ${flashcards.size}",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier.fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically
+    ) { page ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            if (page < totalCards) {
+                // EXAM CARD PAGE
+                Text(
+                    text = "Tarjeta ${page + 1} de $totalCards",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
 
-            Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(32.dp))
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(280.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                key(currentIndex) {
-                    Box(modifier = Modifier.height(250.dp).width(280.dp)) {
-                        FlashcardItem(
-                            flashcard = flashcards[examenOrder[currentIndex]],
-                            isDark = isDark,
-                            onFlip = {}
-                        )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(280.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    key(page) {
+                        Box(modifier = Modifier.height(250.dp).width(280.dp)) {
+                            FlashcardItem(
+                                flashcard = flashcards[examenOrder[page]],
+                                isDark = isDark,
+                                onFlip = {}
+                            )
+                        }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(40.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Anterior
-                Button(
-                    onClick = { if (currentIndex > 0) currentIndex-- },
-                    enabled = currentIndex > 0,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isDark) CardDark else Color(0xFFF3F4F6),
-                        contentColor = if (isDark) White else Indigo
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.weight(1f).padding(end = 8.dp)
-                ) {
-                    Text("← Anterior")
-                }
-
-                // Siguiente / Finalizar
-                Button(
-                    onClick = { currentIndex++ },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Indigo,
-                        contentColor = White
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
-                ) {
-                    Text(if (currentIndex < flashcards.size - 1) "Siguiente →" else "Finalizar 🏁")
-                }
-            }
-        } else {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
                 Text(
-                    text = "🥳",
-                    fontSize = 64.sp
+                    text = "↔ Desliza para navegar",
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "¡Has finalizado!",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = Indigo,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Excelente trabajo repasando tus conocimientos.",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-                Button(
-                    onClick = {
-                        examenOrder = flashcards.indices.shuffled()
-                        currentIndex = 0
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Indigo)
+            } else {
+                // RESULTS PAGE
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Text("🔄 Repetir Examen", color = White)
+                    Text(
+                        text = "🥳",
+                        fontSize = 64.sp
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "¡Has finalizado!",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Indigo,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Excelente trabajo repasando tus conocimientos.",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.scrollToPage(0)
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Indigo)
+                    ) {
+                        Text("🔄 Repetir Examen", color = White)
+                    }
                 }
             }
         }
