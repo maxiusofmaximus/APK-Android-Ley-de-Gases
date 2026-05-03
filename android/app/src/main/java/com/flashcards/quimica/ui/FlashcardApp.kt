@@ -359,7 +359,7 @@ fun ExamenScreen(isDark: Boolean) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Text(
-                    text = "↔ Desliza para navegar",
+                    text = "Desliza para navegar",
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                     fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
