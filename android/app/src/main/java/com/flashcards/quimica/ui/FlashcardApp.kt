@@ -76,7 +76,7 @@ fun FlashcardApp() {
                         Image(
                             painter = painterResource(id = R.drawable.app_logo),
                             contentDescription = "Flashcards Quimica",
-                            modifier = Modifier.size(40.dp).clip(CircleShape)
+                            modifier = Modifier.size(60.dp).clip(CircleShape)
                         )
                     }
                 },
