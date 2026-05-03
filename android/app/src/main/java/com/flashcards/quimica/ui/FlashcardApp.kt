@@ -1,6 +1,7 @@
 package com.flashcards.quimica.ui
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,10 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flashcards.quimica.R
 import com.flashcards.quimica.data.Category
 import com.flashcards.quimica.data.Flashcard
 import com.flashcards.quimica.data.flashcards
@@ -69,11 +72,22 @@ fun FlashcardApp() {
             // ═══ TOP BAR ═══
             TopAppBar(
                 title = {
-                    Text(
-                        text = "🧪 QuímicaCards",
-                        fontWeight = FontWeight.Bold,
-                        color = Indigo
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.app_logo),
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp).clip(CircleShape)
+                        )
+                        Text(
+                            text = "Flashcards Quimica",
+                            fontWeight = FontWeight.Bold,
+                            color = Indigo,
+                            fontSize = 18.sp
+                        )
+                    }
                 },
                 actions = {
                     Box {
