@@ -18,13 +18,13 @@ const flashcards = [
     { q: "Ley de Boyle", a: "V₁P₁ = V₂P₂ (T y n constantes)", category: "leyes", icon: "📖" },
     { q: "Ley de Charles", a: "V₁/T₁ = V₂/T₂ (P y n constantes)", category: "leyes", icon: "📖" },
     { q: "Ley de Gay-Lussac", a: "P₁/T₁ = P₂/T₂ (V y n constantes)", category: "leyes", icon: "📖" },
-    { q: "Gas Ideal", a: "PV = nRT", category: "formulas", icon: "🧮" },
+    { q: "Gas Ideal", a: "PV = nRT", category: "leyes", icon: "📖" },
 
     { q: "Ley de Dalton", a: "PT = P1 + P2 + P3...", category: "leyes", icon: "📖" },
     { q: "Presiones Parciales", a: "Pi = Xi · PT", category: "leyes", icon: "📖" },
 
-    { q: "Densidad de un gas", a: "P = dRT / M", category: "formulas", icon: "🧮" },
-    { q: "Peso Molecular", a: "PV = mRT / M", category: "formulas", icon: "🧮" },
+    { q: "Densidad de un gas", a: "P = dRT / M", category: "leyes", icon: "📖" },
+    { q: "Peso Molecular", a: "PV = mRT / M", category: "leyes", icon: "📖" },
 
     { q: "Tiene un metal del grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
     { q: "Tiene un nitrato", a: "Soluble", category: "solubilidad", icon: "🧪" },
