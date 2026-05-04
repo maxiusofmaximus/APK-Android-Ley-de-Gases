@@ -28,25 +28,35 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content custom-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="configModalLabel"><i class="bi bi-gear-fill me-2"></i> Configuración</h5>
+                    <h5 class="modal-title custom-text-primary" id="configModalLabel"><i class="bi bi-gear-fill me-2"></i> Configuración</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <div class="config-section mb-4">
-                        <h6 class="fw-bold mb-3">Tarjeta de Presión</h6>
-                        <div class="card p-3 custom-config-card">
-                            <div class="form-check form-switch d-flex align-items-center gap-2 m-0 p-0">
-                                <input class="form-check-input ms-0 mt-0" type="checkbox" role="switch" id="toggle-pa-atm" style="width: 2.5em; height: 1.25em; cursor: pointer;">
-                                <label class="form-check-label mb-0" style="cursor: pointer;" for="toggle-pa-atm">Cambiar "1 Pa en atm" por "1 atm en Pa"</label>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1 custom-text-primary">Tarjeta de Presión</h6>
+                                <small class="custom-text-secondary">Cambiar "1 Pa" por "1 atm"</small>
+                            </div>
+                            <div class="form-check form-switch m-0 p-0 d-flex align-items-center">
+                                <input class="form-check-input m-0 custom-switch" type="checkbox" role="switch" id="toggle-pa-atm">
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="config-section mt-4">
-                        <h6 class="fw-bold mb-3">Repetición en Examen</h6>
-                        <label for="repeat-after-input" class="form-label text-secondary">Repetir tarjeta fallada después de [X] tarjetas:</label>
-                        <input type="number" class="form-control mb-2" id="repeat-after-input" min="0" value="3">
-                        <small class="text-secondary d-block"><i class="bi bi-info-circle me-1"></i> 0 = Inmediatamente</small>
+                    <hr class="custom-hr mb-4">
+                    <div class="config-section">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1 custom-text-primary">Frecuencia de repetición</h6>
+                                <small class="custom-text-secondary d-flex align-items-center gap-1">
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="0 = Inmediatamente">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                    Tarjetas antes de repetir.
+                                </small>
+                            </div>
+                            <input type="number" class="form-control custom-input text-center" id="repeat-after-input" min="0" value="0">
+                        </div>
                     </div>
                 </div>
             </div>

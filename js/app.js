@@ -42,7 +42,7 @@ let currentFilter = 'all';
 let cardElements = [];
 
 // Config state
-let configRepeatAfter = 3;
+let configRepeatAfter = 0;
 let configSwapPaAtm = false;
 
 // ============================================
@@ -395,7 +395,8 @@ function init() {
         modal.show();
     });
     document.getElementById('repeat-after-input').addEventListener('change', (e) => {
-        configRepeatAfter = parseInt(e.target.value) || 0;
+        const val = parseInt(e.target.value);
+        configRepeatAfter = isNaN(val) ? 0 : val;
     });
     document.getElementById('toggle-pa-atm').addEventListener('change', (e) => {
         configSwapPaAtm = e.target.checked;
@@ -424,6 +425,10 @@ function init() {
     initTheme();
     initScrollEffect();
     updateProgress();
+
+    // Init Tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
 document.addEventListener('DOMContentLoaded', init);
