@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import kotlinx.coroutines.launch
@@ -53,22 +54,41 @@ fun FlashcardApp() {
     var menuExpanded by remember { mutableStateOf(false) }
     var resetTrigger by remember { mutableStateOf(0) }
 
+    // Config state
+    var showConfigModal by remember { mutableStateOf(false) }
+    var configSwapPaAtm by remember { mutableStateOf(false) }
+    var configRepeatAfter by remember { mutableStateOf(3) }
+
+    LaunchedEffect(configSwapPaAtm) {
+        val newList = flashcards.toMutableList()
+        val targetIndex = newList.indexOfFirst { it.question == "1 Pa en atm" || it.question == "1 atm en Pa (Configurado)" }
+        if (targetIndex != -1) {
+            if (configSwapPaAtm) {
+                newList[targetIndex] = Flashcard("1 atm en Pa (Configurado)", "101,325 Pa", "Conversiones", "🔄")
+            } else {
+                newList[targetIndex] = Flashcard("1 Pa en atm", "9.86 × 10⁻⁶ atm", "Conversiones", "🔄")
+            }
+        }
+        cardList = newList
+    }
+
     val filteredCards = if (selectedCategory == Category.ALL) cardList
         else cardList.filter { it.category == selectedCategory.label }
 
-    val totalCards = flashcards.size
+    val totalCards = cardList.size
     val reviewedCount = reviewedSet.size
     val progressPercent = if (totalCards > 0) (reviewedCount * 100 / totalCards) else 0
 
     FlashcardsQuimicaTheme(darkTheme = isDark) {
         val bgColor = MaterialTheme.colorScheme.background
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(bgColor)
-                .systemBarsPadding()
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(bgColor)
+                    .systemBarsPadding()
+            ) {
             // ═══ TOP BAR ═══
             TopAppBar(
                 title = {
@@ -110,7 +130,14 @@ fun FlashcardApp() {
                     // Reset
                     IconButton(onClick = {
                         reviewedSet = setOf()
-                        cardList = flashcards
+                        cardList = if (configSwapPaAtm) {
+                            val nl = flashcards.toMutableList()
+                            val tIdx = nl.indexOfFirst { it.question == "1 Pa en atm" }
+                            if (tIdx != -1) nl[tIdx] = Flashcard("1 atm en Pa (Configurado)", "101,325 Pa", "Conversiones", "🔄")
+                            nl
+                        } else {
+                            flashcards
+                        }
                         resetTrigger++
                     }) {
                         Text("🔄", fontSize = 20.sp, modifier = Modifier.padding(4.dp))
@@ -286,10 +313,84 @@ fun FlashcardApp() {
     } // end LazyVerticalGrid
 } else {
     key(resetTrigger) {
-        ExamenScreen(isDark = isDark)
+        ExamenScreen(isDark = isDark, cardList = cardList, configRepeatAfter = configRepeatAfter)
     }
 }
-        }
+            } // end Column
+
+            // ═══ FAB CONFIG ═══
+            FloatingActionButton(
+                onClick = { showConfigModal = true },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(24.dp),
+                containerColor = Indigo,
+                contentColor = Color.White,
+                shape = CircleShape,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp, pressedElevation = 12.dp)
+            ) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "Configuración")
+            }
+
+            // ═══ CONFIG MODAL ═══
+            if (showConfigModal) {
+                AlertDialog(
+                    onDismissRequest = { showConfigModal = false },
+                    title = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Settings, contentDescription = null, tint = Indigo)
+                            Spacer(Modifier.width(8.dp))
+                            Text("Configuración", fontWeight = FontWeight.Bold)
+                        }
+                    },
+                    text = {
+                        Column {
+                            Text("Tarjeta de Presión", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                            Spacer(Modifier.height(8.dp))
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Text("Cambiar a 1 atm en Pa", fontSize = 14.sp, modifier = Modifier.weight(1f))
+                                    Switch(
+                                        checked = configSwapPaAtm,
+                                        onCheckedChange = { configSwapPaAtm = it }
+                                    )
+                                }
+                            }
+                            
+                            Spacer(Modifier.height(16.dp))
+                            Divider(color = MaterialTheme.colorScheme.outlineVariant)
+                            Spacer(Modifier.height(16.dp))
+                            
+                            Text("Repetición en Examen", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                            Spacer(Modifier.height(8.dp))
+                            Text("Repetir tarjeta fallada después de $configRepeatAfter tarjetas:", fontSize = 14.sp)
+                            Slider(
+                                value = configRepeatAfter.toFloat(),
+                                onValueChange = { configRepeatAfter = it.toInt() },
+                                valueRange = 0f..10f,
+                                steps = 9
+                            )
+                            Text("0 = Inmediatamente", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    },
+                    confirmButton = {
+                        TextButton(onClick = { showConfigModal = false }) {
+                            Text("Cerrar", color = Indigo, fontWeight = FontWeight.Bold)
+                        }
+                    },
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    textContentColor = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        } // end Box
     }
 }
 
@@ -313,15 +414,16 @@ fun StatItem(value: String, label: String, color: Color, isDark: Boolean) {
 }
 
 @Composable
-fun ExamenScreen(isDark: Boolean) {
-    val totalCards = flashcards.size
-    val examenOrder by remember { mutableStateOf(flashcards.indices.shuffled()) }
-    val pagerState = rememberPagerState(pageCount = { totalCards + 1 })
+fun ExamenScreen(isDark: Boolean, cardList: List<Flashcard>, configRepeatAfter: Int) {
+    var examenOrder by remember { mutableStateOf(cardList.indices.shuffled().toList()) }
+    val pagerState = rememberPagerState(pageCount = { examenOrder.size + 1 })
     val coroutineScope = rememberCoroutineScope()
+    var showFeedback by remember { mutableStateOf(false) }
 
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize(),
+        userScrollEnabled = false,
         verticalAlignment = Alignment.CenterVertically
     ) { page ->
         Column(
@@ -331,10 +433,10 @@ fun ExamenScreen(isDark: Boolean) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (page < totalCards) {
+            if (page < examenOrder.size) {
                 // EXAM CARD PAGE
                 Text(
-                    text = "Tarjeta ${page + 1} de $totalCards",
+                    text = "Tarjeta ${page + 1} de ${examenOrder.size}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -351,22 +453,83 @@ fun ExamenScreen(isDark: Boolean) {
                     key(page) {
                         Box(modifier = Modifier.height(250.dp).width(280.dp)) {
                             FlashcardItem(
-                                flashcard = flashcards[examenOrder[page]],
+                                flashcard = cardList[examenOrder[page]],
                                 isDark = isDark,
-                                onFlip = {}
+                                onFlip = { flipped ->
+                                    if (flipped && page == pagerState.currentPage) {
+                                        showFeedback = true
+                                    }
+                                }
                             )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-                Text(
-                    text = "Desliza para navegar",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
-                )
+                AnimatedVisibility(
+                    visible = showFeedback && page == pagerState.currentPage,
+                    enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn(),
+                    exit = slideOutVertically(targetOffsetY = { it / 2 }) + fadeOut()
+                ) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                "¿Respondiste correctamente?",
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 16.sp
+                            )
+                            Spacer(Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                Button(
+                                    onClick = {
+                                        showFeedback = false
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(page + 1)
+                                        }
+                                    },
+                                    modifier = Modifier.weight(1f),
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF10b981))
+                                ) {
+                                    Text("✅ Sí", color = Color.White, fontWeight = FontWeight.Bold)
+                                }
+                                
+                                Button(
+                                    onClick = {
+                                        showFeedback = false
+                                        // Reinsert logic
+                                        val currentList = examenOrder.toMutableList()
+                                        val failedCardIdx = currentList[page]
+                                        var insertAt = page + 1 + configRepeatAfter
+                                        if (insertAt > currentList.size) insertAt = currentList.size
+                                        currentList.add(insertAt, failedCardIdx)
+                                        examenOrder = currentList.toList()
+                                        
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(page + 1)
+                                        }
+                                    },
+                                    modifier = Modifier.weight(1f),
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFef4444))
+                                ) {
+                                    Text("❌ No", color = Color.White, fontWeight = FontWeight.Bold)
+                                }
+                            }
+                        }
+                    }
+                }
             } else {
                 // RESULTS PAGE
                 Column(
@@ -396,12 +559,15 @@ fun ExamenScreen(isDark: Boolean) {
                     Button(
                         onClick = {
                             coroutineScope.launch {
+                                // Reshuffle
+                                examenOrder = cardList.indices.shuffled().toList()
+                                showFeedback = false
                                 pagerState.scrollToPage(0)
                             }
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Indigo)
                     ) {
-                        Text("🔄 Repetir Examen", color = White)
+                        Text("🔄 Repetir Examen", color = Color.White)
                     }
                 }
             }

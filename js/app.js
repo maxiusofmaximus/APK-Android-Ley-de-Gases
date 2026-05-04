@@ -41,6 +41,10 @@ let viewedCards = new Set();
 let currentFilter = 'all';
 let cardElements = [];
 
+// Config state
+let configRepeatAfter = 3;
+let configSwapPaAtm = false;
+
 // ============================================
 // Card Creation
 // ============================================
@@ -85,6 +89,15 @@ function createFlashcard(item, index, noDelay = false) {
         if (card.classList.contains('flip')) {
             viewedCards.add(index);
             updateProgress();
+            
+            // Exam logic trigger
+            if (!document.getElementById('view-examen').classList.contains('d-none')) {
+                showExamFeedback();
+            }
+        } else {
+             if (!document.getElementById('view-examen').classList.contains('d-none')) {
+                 hideExamFeedback();
+             }
         }
     });
 
@@ -250,6 +263,14 @@ function initScrollEffect() {
 let examenOrder = [];
 let currentExamenIndex = 0;
 
+function showExamFeedback() {
+    document.getElementById('exam-feedback').classList.add('show');
+}
+
+function hideExamFeedback() {
+    document.getElementById('exam-feedback').classList.remove('show');
+}
+
 function initExamen() {
     // Shuffle all indices
     examenOrder = Array.from({ length: flashcards.length }, (_, i) => i);
@@ -258,9 +279,8 @@ function initExamen() {
         [examenOrder[i], examenOrder[j]] = [examenOrder[j], examenOrder[i]];
     }
     currentExamenIndex = 0;
-    document.getElementById('examen-total').textContent = flashcards.length;
-
-    document.getElementById('btn-next-examen').classList.remove('d-none');
+    
+    hideExamFeedback();
     document.getElementById('examen-end-message').classList.add('d-none');
     document.getElementById('examen-end-message').classList.remove('d-flex');
     document.querySelector('.examen-progress-text').classList.remove('d-none');
@@ -271,11 +291,11 @@ function initExamen() {
 function renderExamenCard() {
     const container = document.getElementById('examen-card-container');
     container.innerHTML = '';
+    hideExamFeedback();
 
-    if (currentExamenIndex >= flashcards.length) {
+    if (currentExamenIndex >= examenOrder.length) {
         // Exam finished
         container.innerHTML = '';
-        document.getElementById('btn-next-examen').classList.add('d-none');
         document.querySelector('.examen-progress-text').classList.add('d-none');
         document.getElementById('examen-end-message').classList.remove('d-none');
         document.getElementById('examen-end-message').classList.add('d-flex');
@@ -283,35 +303,40 @@ function renderExamenCard() {
     }
 
     document.getElementById('examen-current-idx').textContent = currentExamenIndex + 1;
+    document.getElementById('examen-total').textContent = examenOrder.length;
 
     const cardIndex = examenOrder[currentExamenIndex];
     const item = flashcards[cardIndex];
     const card = createFlashcard(item, cardIndex, true); // true for noDelay
     card.classList.add('card-enter');
+    // Disable manual flipping if we want? The requirement says "no puede cambiar de tarjeta manualmente"
+    // They still need to flip it to answer, but they can't go next/prev manually.
     container.appendChild(card);
+}
 
-    // Toggle prev button visibility
-    const prevBtn = document.getElementById('btn-prev-examen');
-    if (prevBtn) {
-        if (currentExamenIndex === 0) {
-            prevBtn.classList.add('d-none');
-            prevBtn.classList.remove('d-flex');
+function updateFlashcardsData() {
+    const idx = flashcards.findIndex(f => f.q === "1 Pa en atm" || f.q === "1 atm en Pa (Config)");
+    if (idx !== -1) {
+        if (configSwapPaAtm) {
+            flashcards[idx].q = "1 atm en Pa (Config)";
+            flashcards[idx].a = "101,325 Pa";
         } else {
-            prevBtn.classList.remove('d-none');
-            prevBtn.classList.add('d-flex');
+            flashcards[idx].q = "1 Pa en atm";
+            flashcards[idx].a = "9.86 × 10⁻⁶ atm";
         }
-    }
-}
-
-function nextExamenCard() {
-    currentExamenIndex++;
-    renderExamenCard();
-}
-
-function prevExamenCard() {
-    if (currentExamenIndex > 0) {
-        currentExamenIndex--;
-        renderExamenCard();
+        
+        const container = document.getElementById('flashcards-container');
+        const oldCard = container.querySelector(`[data-index="${idx}"]`);
+        if (oldCard) {
+            const newCard = createFlashcard(flashcards[idx], idx, true);
+            if (!oldCard.classList.contains('hidden')) newCard.classList.remove('hidden');
+            else newCard.classList.add('hidden');
+            container.replaceChild(newCard, oldCard);
+        }
+        
+        if (!document.getElementById('view-examen').classList.contains('d-none') && examenOrder[currentExamenIndex] === idx) {
+            renderExamenCard();
+        }
     }
 }
 
@@ -357,14 +382,42 @@ function init() {
     document.getElementById('nav-examen').addEventListener('click', (e) => { e.preventDefault(); switchView('examen'); });
 
     // Examen listeners
-    document.getElementById('btn-next-examen').addEventListener('click', nextExamenCard);
-    const prevBtn = document.getElementById('btn-prev-examen');
-    if (prevBtn) prevBtn.addEventListener('click', prevExamenCard);
     document.getElementById('btn-restart-examen').addEventListener('click', initExamen);
 
     // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => filterCards(btn.dataset.category));
+    });
+
+    // Config Logic
+    document.getElementById('btn-config').addEventListener('click', () => {
+        const modal = new bootstrap.Modal(document.getElementById('configModal'));
+        modal.show();
+    });
+    document.getElementById('repeat-after-input').addEventListener('change', (e) => {
+        configRepeatAfter = parseInt(e.target.value) || 0;
+    });
+    document.getElementById('toggle-pa-atm').addEventListener('change', (e) => {
+        configSwapPaAtm = e.target.checked;
+        updateFlashcardsData();
+    });
+
+    // Feedback buttons
+    document.getElementById('btn-feedback-yes').addEventListener('click', () => {
+        hideExamFeedback();
+        currentExamenIndex++;
+        renderExamenCard();
+    });
+
+    document.getElementById('btn-feedback-no').addEventListener('click', () => {
+        hideExamFeedback();
+        const failedCardIdx = examenOrder[currentExamenIndex];
+        let insertAt = currentExamenIndex + 1 + configRepeatAfter;
+        if (insertAt > examenOrder.length) insertAt = examenOrder.length;
+        examenOrder.splice(insertAt, 0, failedCardIdx);
+        
+        currentExamenIndex++;
+        renderExamenCard();
     });
 
     // Init features

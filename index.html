@@ -18,6 +18,40 @@
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Config Button -->
+    <button class="btn-config-float" id="btn-config" title="Configuración" aria-label="Configuración">
+        <i class="bi bi-gear-fill"></i>
+    </button>
+
+    <!-- Config Modal -->
+    <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel"><i class="bi bi-gear-fill me-2"></i> Configuración</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="config-section mb-4">
+                        <h6 class="fw-bold mb-3">Tarjeta de Presión</h6>
+                        <div class="card p-3 custom-config-card">
+                            <div class="form-check form-switch d-flex align-items-center gap-2 m-0 p-0">
+                                <input class="form-check-input ms-0 mt-0" type="checkbox" role="switch" id="toggle-pa-atm" style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                                <label class="form-check-label mb-0" style="cursor: pointer;" for="toggle-pa-atm">Cambiar "1 Pa en atm" por "1 atm en Pa"</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="config-section mt-4">
+                        <h6 class="fw-bold mb-3">Repetición en Examen</h6>
+                        <label for="repeat-after-input" class="form-label text-secondary">Repetir tarjeta fallada después de [X] tarjetas:</label>
+                        <input type="number" class="form-control mb-2" id="repeat-after-input" min="0" value="3">
+                        <small class="text-secondary d-block"><i class="bi bi-info-circle me-1"></i> 0 = Inmediatamente</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Animated background particles -->
     <div class="bg-particles" aria-hidden="true">
         <div class="particle"></div>
@@ -135,13 +169,22 @@
                         <!-- Single card goes here -->
                     </div>
 
-                    <!-- Next/Prev Buttons as Carousel Control -->
+                    <!-- Next/Prev Buttons as Carousel Control (HIDDEN IN EXAM MODE) -->
                     <button class="btn border-0 bg-transparent position-absolute start-0 z-2 d-none align-items-center justify-content-center" id="btn-prev-examen" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%);">
                         <i class="bi bi-chevron-left fs-1 text-secondary opacity-75"></i>
                     </button>
-                    <button class="btn border-0 bg-transparent position-absolute end-0 z-2 d-flex align-items-center justify-content-center" id="btn-next-examen" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%);">
+                    <button class="btn border-0 bg-transparent position-absolute end-0 z-2 d-none align-items-center justify-content-center" id="btn-next-examen" style="width: 50px; height: 50px; top: 50%; transform: translateY(-50%);">
                         <i class="bi bi-chevron-right fs-1 text-secondary opacity-75"></i>
                     </button>
+
+                    <!-- Exam Feedback -->
+                    <div id="exam-feedback" class="exam-feedback-container">
+                        <h5 class="exam-feedback-title">¿Respondiste correctamente?</h5>
+                        <div class="exam-feedback-buttons">
+                            <button class="btn-feedback yes" id="btn-feedback-yes"><i class="bi bi-check-lg me-1"></i> Sí</button>
+                            <button class="btn-feedback no" id="btn-feedback-no"><i class="bi bi-x-lg me-1"></i> No</button>
+                        </div>
+                    </div>
                     
                     <!-- Centered End Message -->
                     <div id="examen-end-message" class="examen-end text-center d-none position-absolute w-100 h-100 flex-column align-items-center justify-content-center bg-transparent z-3" style="top: 0; left: 0;">
