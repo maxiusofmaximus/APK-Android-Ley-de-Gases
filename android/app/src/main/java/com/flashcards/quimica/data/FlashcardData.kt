@@ -31,14 +31,14 @@ val flashcards = listOf(
     Flashcard("Ley de Boyle", "V₁P₁ = V₂P₂\n(T y n constantes)", "Leyes", "📖"),
     Flashcard("Ley de Charles", "V₁/T₁ = V₂/T₂\n(P y n constantes)", "Leyes", "📖"),
     Flashcard("Ley de Gay-Lussac", "P₁/T₁ = P₂/T₂\n(V y n constantes)", "Leyes", "📖"),
-    Flashcard("Gas Ideal", "PV = nRT", "Fórmulas", "🧮"),
+    Flashcard("Gas Ideal", "PV = nRT", "Leyes", "📖"),
 
     // NUEVAS
     Flashcard("Ley de Dalton", "PT = P1 + P2 + P3...", "Leyes", "📖"),
     Flashcard("Presiones Parciales", "Pi = Xi · PT", "Leyes", "📖"),
 
-    Flashcard("Densidad de un gas", "P = dRT / M", "Fórmulas", "🧮"),
-    Flashcard("Peso Molecular", "PV = mRT / M", "Fórmulas", "🧮"),
+    Flashcard("Densidad de un gas", "P = dRT / M", "Leyes", "📖"),
+    Flashcard("Peso Molecular", "PV = mRT / M", "Leyes", "📖"),
 
     // SOLUBILIDAD
     Flashcard("Tiene un metal del grupo IA", "Soluble", "Solubilidad", "🧪"),
