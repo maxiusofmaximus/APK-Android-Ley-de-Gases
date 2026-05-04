@@ -12,7 +12,8 @@ enum class Category(val label: String, val emoji: String) {
     CONVERSIONES("Conversiones", "🔄"),
     CONSTANTES("Constantes", "#️⃣"),
     LEYES("Leyes", "📖"),
-    FORMULAS("Fórmulas", "🧮")
+    FORMULAS("Fórmulas", "🧮"),
+    SOLUBILIDAD("Solubilidad", "🧪")
 }
 
 val flashcards = listOf(
@@ -37,5 +38,15 @@ val flashcards = listOf(
     Flashcard("Presiones Parciales", "Pi = Xi · PT", "Leyes", "📖"),
 
     Flashcard("Densidad de un gas", "P = dRT / M", "Fórmulas", "🧮"),
-    Flashcard("Peso Molecular", "PV = mRT / M", "Fórmulas", "🧮")
+    Flashcard("Peso Molecular", "PV = mRT / M", "Fórmulas", "🧮"),
+
+    // SOLUBILIDAD
+    Flashcard("Tiene un metal del grupo IA", "Soluble", "Solubilidad", "🧪"),
+    Flashcard("Tiene un nitrato", "Soluble", "Solubilidad", "🧪"),
+    Flashcard("Es un halogenuro + Ag, Hg o Pb", "Insoluble", "Solubilidad", "🧪"),
+    Flashcard("Es un halogenuro - Ag, Hg o Pb", "Soluble", "Solubilidad", "🧪"),
+    Flashcard("Es un carbonato o fosfato", "Insoluble", "Solubilidad", "🧪"),
+    Flashcard("Es un carbonato o fosfato + metal Grupo IA", "Soluble", "Solubilidad", "🧪"),
+    Flashcard("Es un sulfato + Na/ Cu/ Mg", "Soluble", "Solubilidad", "🧪"),
+    Flashcard("Es un sulfato + Ba/ Pb / Sr/ Ca", "Insoluble", "Solubilidad", "🧪")
 )

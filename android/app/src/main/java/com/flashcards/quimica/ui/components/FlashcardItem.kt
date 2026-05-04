@@ -186,6 +186,7 @@ fun getCategoryColor(category: String): Color {
         "Constantes" -> CategoryConstantes
         "Leyes" -> CategoryLeyes
         "Fórmulas" -> CategoryFormulas
+        "Solubilidad" -> Cyan
         else -> Indigo
     }
 }
