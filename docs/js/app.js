@@ -283,9 +283,11 @@ function renderExamenCard() {
     const prevBtn = document.getElementById('btn-prev-examen');
     if (prevBtn) {
         if (currentExamenIndex === 0) {
-            prevBtn.style.display = 'none';
+            prevBtn.classList.add('d-none');
+            prevBtn.classList.remove('d-flex');
         } else {
-            prevBtn.style.display = 'flex';
+            prevBtn.classList.remove('d-none');
+            prevBtn.classList.add('d-flex');
         }
     }
 }
