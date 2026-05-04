@@ -99,6 +99,7 @@ function updateProgress() {
     const viewed = viewedCards.size;
     const percent = Math.round((viewed / flashcards.length) * 100);
 
+    document.getElementById('stat-total').textContent = flashcards.length;
     document.getElementById('stat-viewed').textContent = viewed;
     document.getElementById('stat-percent').textContent = `${percent}%`;
 
