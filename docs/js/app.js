@@ -15,16 +15,25 @@ const flashcards = [
     { q: "Número de Avogadro", a: "6.022 × 10²³", category: "constantes", icon: "🔢" },
     { q: "Constante R", a: "0.082 L·atm/mol·K", category: "constantes", icon: "®️" },
 
-    { q: "Ley de Boyle", a: "V₁P₁ = V₂P₂ (T y n constantes)", category: "leyes", icon: "📐" },
-    { q: "Ley de Charles", a: "V₁/T₁ = V₂/T₂ (P y n constantes)", category: "leyes", icon: "📐" },
-    { q: "Ley de Gay-Lussac", a: "P₁/T₁ = P₂/T₂ (V y n constantes)", category: "leyes", icon: "📐" },
-    { q: "Gas Ideal", a: "PV = nRT", category: "leyes", icon: "⚗️" },
+    { q: "Ley de Boyle", a: "V₁P₁ = V₂P₂ (T y n constantes)", category: "leyes", icon: "📖" },
+    { q: "Ley de Charles", a: "V₁/T₁ = V₂/T₂ (P y n constantes)", category: "leyes", icon: "📖" },
+    { q: "Ley de Gay-Lussac", a: "P₁/T₁ = P₂/T₂ (V y n constantes)", category: "leyes", icon: "📖" },
+    { q: "Gas Ideal", a: "PV = nRT", category: "formulas", icon: "🧮" },
 
-    { q: "Ley de Dalton", a: "PT = P1 + P2 + P3...", category: "leyes", icon: "📐" },
-    { q: "Presiones Parciales", a: "Pi = Xi · PT", category: "leyes", icon: "📐" },
+    { q: "Ley de Dalton", a: "PT = P1 + P2 + P3...", category: "leyes", icon: "📖" },
+    { q: "Presiones Parciales", a: "Pi = Xi · PT", category: "leyes", icon: "📖" },
 
     { q: "Densidad de un gas", a: "P = dRT / M", category: "formulas", icon: "🧮" },
-    { q: "Peso Molecular", a: "PV = mRT / M", category: "formulas", icon: "🧮" }
+    { q: "Peso Molecular", a: "PV = mRT / M", category: "formulas", icon: "🧮" },
+
+    { q: "Tiene un metal del grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
+    { q: "Tiene un nitrato", a: "Soluble", category: "solubilidad", icon: "🧪" },
+    { q: "Es un halogenuro + Ag, Hg o Pb", a: "Insoluble", category: "solubilidad", icon: "🧪" },
+    { q: "Es un halogenuro - Ag, Hg o Pb", a: "Soluble", category: "solubilidad", icon: "🧪" },
+    { q: "Es un carbonato o fosfato", a: "Insoluble", category: "solubilidad", icon: "🧪" },
+    { q: "Es un carbonato o fosfato + metal Grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
+    { q: "Es un sulfato + Na/ Cu/ Mg", a: "Soluble", category: "solubilidad", icon: "🧪" },
+    { q: "Es un sulfato + Ba/ Pb / Sr/ Ca", a: "Insoluble", category: "solubilidad", icon: "🧪" }
 ];
 
 // State
@@ -51,7 +60,8 @@ function createFlashcard(item, index, noDelay = false) {
         conversiones: 'var(--cat-conversiones)',
         constantes: 'var(--cat-constantes)',
         leyes: 'var(--cat-leyes)',
-        formulas: 'var(--cat-formulas)'
+        formulas: 'var(--cat-formulas)',
+        solubilidad: 'var(--cat-solubilidad)'
     };
 
     card.innerHTML = `
