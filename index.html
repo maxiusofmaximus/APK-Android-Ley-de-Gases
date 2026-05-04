@@ -33,29 +33,29 @@
                 </div>
                 <div class="modal-body p-4">
                     <div class="config-section mb-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <label class="custom-text-secondary m-0 text-start flex-grow-1" for="toggle-pa-atm" style="cursor: pointer;">
                                 <h6 class="fw-bold mb-1 custom-text-primary">Tarjeta de Presión</h6>
-                                <small class="custom-text-secondary">Cambiar "1 Pa" por "1 atm"</small>
-                            </div>
-                            <div class="form-check form-switch m-0 p-0 d-flex align-items-center">
+                                Usar conversión de 1 atm a Pascales
+                            </label>
+                            <div class="form-check form-switch m-0 p-0 ms-3 d-flex align-items-center justify-content-end">
                                 <input class="form-check-input m-0 custom-switch" type="checkbox" role="switch" id="toggle-pa-atm">
                             </div>
                         </div>
                     </div>
                     <hr class="custom-hr mb-4">
                     <div class="config-section">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="fw-bold mb-1 custom-text-primary">Frecuencia de repetición</h6>
-                                <small class="custom-text-secondary d-flex align-items-center gap-1">
+                        <div class="d-flex flex-column w-100">
+                            <h6 class="fw-bold mb-2 custom-text-primary w-100 text-start">Frecuencia de repetición</h6>
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <label class="custom-text-secondary m-0 text-start" style="flex: 1; padding-right: 15px;" for="repeat-after-input">
                                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="0 = Inmediatamente">
                                         <i class="bi bi-info-circle"></i>
                                     </span>
-                                    Tarjetas antes de repetir.
-                                </small>
+                                    Tarjetas antes de repetir
+                                </label>
+                                <input type="number" class="form-control custom-input text-end" id="repeat-after-input" min="0" value="0" style="width: 80px;">
                             </div>
-                            <input type="number" class="form-control custom-input text-center" id="repeat-after-input" min="0" value="0">
                         </div>
                     </div>
                 </div>
@@ -153,9 +153,7 @@
                 <button class="filter-btn" data-category="leyes">
                     <i class="bi bi-book"></i> Leyes
                 </button>
-                <button class="filter-btn" data-category="formulas">
-                    <i class="bi bi-calculator"></i> Fórmulas
-                </button>
+
                 <button class="filter-btn" data-category="solubilidad">
                     <i class="bi bi-droplet-half"></i> Solubilidad
                 </button>

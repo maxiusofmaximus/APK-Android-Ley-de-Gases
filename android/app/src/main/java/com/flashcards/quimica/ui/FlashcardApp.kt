@@ -57,16 +57,16 @@ fun FlashcardApp() {
     // Config state
     var showConfigModal by remember { mutableStateOf(false) }
     var configSwapPaAtm by remember { mutableStateOf(false) }
-    var configRepeatAfter by remember { mutableStateOf(3) }
+    var configRepeatAfter by remember { mutableStateOf(0) }
 
     LaunchedEffect(configSwapPaAtm) {
         val newList = flashcards.toMutableList()
-        val targetIndex = newList.indexOfFirst { it.question == "1 Pa en atm" || it.question == "1 atm en Pa (Configurado)" }
+        val targetIndex = newList.indexOfFirst { it.question == "1 atm en Pa" || it.question == "1 Pa en atm" }
         if (targetIndex != -1) {
             if (configSwapPaAtm) {
-                newList[targetIndex] = Flashcard("1 atm en Pa (Configurado)", "101,325 Pa", "Conversiones", "🔄")
-            } else {
                 newList[targetIndex] = Flashcard("1 Pa en atm", "9.86 × 10⁻⁶ atm", "Conversiones", "🔄")
+            } else {
+                newList[targetIndex] = Flashcard("1 atm en Pa", "101,325 Pa", "Conversiones", "🔄")
             }
         }
         cardList = newList
@@ -345,39 +345,40 @@ fun FlashcardApp() {
                     },
                     text = {
                         Column {
-                            Text("Tarjeta de Presión", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
-                            Spacer(Modifier.height(8.dp))
-                            Card(
-                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                                shape = RoundedCornerShape(12.dp)
+                            Row(
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth().padding(12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text("Cambiar a 1 atm en Pa", fontSize = 14.sp, modifier = Modifier.weight(1f))
-                                    Switch(
-                                        checked = configSwapPaAtm,
-                                        onCheckedChange = { configSwapPaAtm = it }
-                                    )
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("Tarjeta de Presión", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                                    Text("Usar conversión de 1 atm a Pascales", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 }
+                                Switch(
+                                    checked = configSwapPaAtm,
+                                    onCheckedChange = { configSwapPaAtm = it }
+                                )
                             }
                             
-                            Spacer(Modifier.height(16.dp))
-                            Divider(color = MaterialTheme.colorScheme.outlineVariant)
-                            Spacer(Modifier.height(16.dp))
-                            
-                            Text("Repetición en Examen", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                             Spacer(Modifier.height(8.dp))
-                            Text("Repetir tarjeta fallada después de $configRepeatAfter tarjetas:", fontSize = 14.sp)
+                            Divider(color = MaterialTheme.colorScheme.outlineVariant)
+                            Spacer(Modifier.height(8.dp))
+                            
+                            Row(
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("Frecuencia de repetición", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                                    Text("Tarjetas antes de repetir: $configRepeatAfter", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                            }
                             Slider(
                                 value = configRepeatAfter.toFloat(),
                                 onValueChange = { configRepeatAfter = it.toInt() },
                                 valueRange = 0f..10f,
                                 steps = 9
                             )
-                            Text("0 = Inmediatamente", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text("ℹ️ 0 = Inmediatamente", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     },
                     confirmButton = {

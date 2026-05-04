@@ -12,14 +12,12 @@ enum class Category(val label: String, val emoji: String) {
     CONVERSIONES("Conversiones", "🔄"),
     CONSTANTES("Constantes", "#️⃣"),
     LEYES("Leyes", "📖"),
-    FORMULAS("Fórmulas", "🧮"),
     SOLUBILIDAD("Solubilidad", "🧪")
 }
 
 val flashcards = listOf(
     Flashcard("1 mmHg a torr", "1 torr", "Conversiones", "🔄"),
     Flashcard("1 atm en mmHg", "760 mmHg", "Conversiones", "🔄"),
-    Flashcard("1 Pa en atm", "9.86 × 10⁻⁶ atm", "Conversiones", "🔄"),
     Flashcard("1 atm en Pa", "101,325 Pa", "Conversiones", "🔄"),
 
     Flashcard("Temperatura Normal", "273.15 K", "Constantes", "🌡️"),

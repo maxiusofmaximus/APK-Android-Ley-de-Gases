@@ -6,7 +6,6 @@
 const flashcards = [
     { q: "1 mmHg a torr", a: "1 torr", category: "conversiones", icon: "🔄" },
     { q: "1 atm en mmHg", a: "760 mmHg", category: "conversiones", icon: "🔄" },
-    { q: "1 Pa en atm", a: "9.86 × 10⁻⁶ atm", category: "conversiones", icon: "🔄" },
     { q: "1 atm en Pa", a: "101,325 Pa", category: "conversiones", icon: "🔄" },
 
     { q: "Temperatura Normal", a: "273.15 K", category: "constantes", icon: "🌡️" },
@@ -315,14 +314,14 @@ function renderExamenCard() {
 }
 
 function updateFlashcardsData() {
-    const idx = flashcards.findIndex(f => f.q === "1 Pa en atm" || f.q === "1 atm en Pa (Config)");
+    const idx = flashcards.findIndex(f => f.q === "1 Pa en atm" || f.q === "1 atm en Pa");
     if (idx !== -1) {
         if (configSwapPaAtm) {
-            flashcards[idx].q = "1 atm en Pa (Config)";
-            flashcards[idx].a = "101,325 Pa";
-        } else {
             flashcards[idx].q = "1 Pa en atm";
             flashcards[idx].a = "9.86 × 10⁻⁶ atm";
+        } else {
+            flashcards[idx].q = "1 atm en Pa";
+            flashcards[idx].a = "101,325 Pa";
         }
         
         const container = document.getElementById('flashcards-container');
