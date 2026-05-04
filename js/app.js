@@ -188,7 +188,7 @@ function resetProgress() {
         card.classList.remove('flip');
     });
     updateProgress();
-    
+
     // Also reset Examen if active
     if (!document.getElementById('view-examen').classList.contains('d-none')) {
         initExamen();
@@ -252,26 +252,26 @@ let currentExamenIndex = 0;
 
 function initExamen() {
     // Shuffle all indices
-    examenOrder = Array.from({length: flashcards.length}, (_, i) => i);
+    examenOrder = Array.from({ length: flashcards.length }, (_, i) => i);
     for (let i = examenOrder.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [examenOrder[i], examenOrder[j]] = [examenOrder[j], examenOrder[i]];
     }
     currentExamenIndex = 0;
     document.getElementById('examen-total').textContent = flashcards.length;
-    
+
     document.getElementById('btn-next-examen').classList.remove('d-none');
     document.getElementById('examen-end-message').classList.add('d-none');
     document.getElementById('examen-end-message').classList.remove('d-flex');
     document.querySelector('.examen-progress-text').classList.remove('d-none');
-    
+
     renderExamenCard();
 }
 
 function renderExamenCard() {
     const container = document.getElementById('examen-card-container');
     container.innerHTML = '';
-    
+
     if (currentExamenIndex >= flashcards.length) {
         // Exam finished
         container.innerHTML = '';
@@ -281,15 +281,15 @@ function renderExamenCard() {
         document.getElementById('examen-end-message').classList.add('d-flex');
         return;
     }
-    
+
     document.getElementById('examen-current-idx').textContent = currentExamenIndex + 1;
-    
+
     const cardIndex = examenOrder[currentExamenIndex];
     const item = flashcards[cardIndex];
     const card = createFlashcard(item, cardIndex, true); // true for noDelay
     card.classList.add('card-enter');
     container.appendChild(card);
-    
+
     // Toggle prev button visibility
     const prevBtn = document.getElementById('btn-prev-examen');
     if (prevBtn) {
@@ -320,7 +320,7 @@ function switchView(viewName) {
     const viewExamen = document.getElementById('view-examen');
     const navTarjetas = document.getElementById('nav-tarjetas');
     const navExamen = document.getElementById('nav-examen');
-    
+
     if (viewName === 'tarjetas') {
         viewTarjetas.classList.remove('d-none');
         viewExamen.classList.add('d-none');
@@ -351,11 +351,11 @@ function init() {
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
     document.getElementById('btn-shuffle').addEventListener('click', shuffleCards);
     document.getElementById('btn-reset').addEventListener('click', resetProgress);
-    
+
     // View Switchers
     document.getElementById('nav-tarjetas').addEventListener('click', (e) => { e.preventDefault(); switchView('tarjetas'); });
     document.getElementById('nav-examen').addEventListener('click', (e) => { e.preventDefault(); switchView('examen'); });
-    
+
     // Examen listeners
     document.getElementById('btn-next-examen').addEventListener('click', nextExamenCard);
     const prevBtn = document.getElementById('btn-prev-examen');
