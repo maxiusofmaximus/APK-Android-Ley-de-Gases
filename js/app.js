@@ -3,47 +3,7 @@
 // Premium Interactive Flashcard Application
 // ============================================
 
-const flashcards = [
-    { q: "1 mmHg a torr", a: "1 torr", category: "conversiones", icon: "🔄" },
-    { q: "1 atm en mmHg", a: "760 mmHg", category: "conversiones", icon: "🔄" },
-    { q: "1 atm en Pa", a: "101,325 Pa", category: "conversiones", icon: "🔄" },
-
-    { q: "Temperatura Normal", a: "273.15 K", category: "constantes", icon: "🌡️" },
-    { q: "Presión Normal", a: "1 atm", category: "constantes", icon: "⚖️" },
-    { q: "Volumen normal", a: "22.4 L", category: "constantes", icon: "📦" },
-    { q: "Número de Avogadro", a: "6.022 × 10²³", category: "constantes", icon: "🔢" },
-    { q: "Constante R", a: "0.082 L·atm/mol·K", category: "constantes", icon: "®️" },
-
-    { q: "Ley de Boyle", a: "V₁P₁ = V₂P₂ (T y n constantes)", category: "leyes", icon: "📖" },
-    { q: "Ley de Charles", a: "V₁/T₁ = V₂/T₂ (P y n constantes)", category: "leyes", icon: "📖" },
-    { q: "Ley de Gay-Lussac", a: "P₁/T₁ = P₂/T₂ (V y n constantes)", category: "leyes", icon: "📖" },
-    { q: "Gas Ideal", a: "PV = nRT", category: "leyes", icon: "📖" },
-
-    { q: "Ley de Dalton", a: "PT = P1 + P2 + P3...", category: "leyes", icon: "📖" },
-    { q: "Presiones Parciales", a: "Pi = Xi · PT", category: "leyes", icon: "📖" },
-
-    { q: "Densidad de un gas", a: "P = dRT / M", category: "leyes", icon: "📖" },
-    { q: "Peso Molecular", a: "PV = mRT / M", category: "leyes", icon: "📖" },
-
-    { q: "Porcentaje m/m", a: "% m/m = (g sto/g sln) * 100", category: "fórmulas", icon: "⚗️" },
-    { q: "Porcentaje V/V", a: "% V/V = (mL sto/mL sln) * 100", category: "fórmulas", icon: "⚗️" },
-    { q: "Porcentaje m/V", a: "% m/V = (g sto/mL sln) * 100", category: "fórmulas", icon: "⚗️" },
-    { q: "Molaridad", a: "M = mol sto/L sln", category: "fórmulas", icon: "⚗️" },
-    { q: "Molaridad (extendida)", a: "M = masa sto/(PM sto) V sln", category: "fórmulas", icon: "⚗️" },
-    { q: "molalidad", a: "<span style=\"font-family: 'Google Sans', sans-serif;\">m</span> = mol sto/Kg ste", category: "fórmulas", icon: "⚗️" },
-    { q: "Partes por millón", a: "ppm = mg sto/L sln", category: "fórmulas", icon: "⚗️" },
-    { q: "Diluciones", a: "C1 * V1 = C2 * V2", category: "fórmulas", icon: "⚗️" },
-    { q: "Fracción molar", a: "X<sub>A</sub> = mol A/moles totales<br> X<sub>B</sub> = mol B/moles totales<br> X<sub>A</sub> + X<sub>B</sub> = 1", category: "Fórmulas", icon: "⚗️" },
-
-    { q: "Tiene un metal del grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
-    { q: "Tiene un nitrato", a: "Soluble", category: "solubilidad", icon: "🧪" },
-    { q: "Es un halogenuro + Ag, Hg o Pb", a: "Insoluble", category: "solubilidad", icon: "🧪" },
-    { q: "Es un halogenuro - Ag, Hg o Pb", a: "Soluble", category: "solubilidad", icon: "🧪" },
-    { q: "Es un carbonato o fosfato", a: "Insoluble", category: "solubilidad", icon: "🧪" },
-    { q: "Es un carbonato o fosfato + metal Grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
-    { q: "Es un sulfato + Na/ Cu/ Mg", a: "Soluble", category: "solubilidad", icon: "🧪" },
-    { q: "Es un sulfato + Ba/ Pb / Sr/ Ca", a: "Insoluble", category: "solubilidad", icon: "🧪" }
-];
+let flashcards = [];
 
 // State
 let viewedCards = new Set();
@@ -368,13 +328,21 @@ function switchView(viewName) {
 // Initialize
 // ============================================
 function init() {
-    const container = document.getElementById('flashcards-container');
+    fetch('data/quimica.json')
+        .then(res => res.json())
+        .then(data => {
+            flashcards = data;
+            const container = document.getElementById('flashcards-container');
+            
+            flashcards.forEach((item, index) => {
+                const card = createFlashcard(item, index);
+                card.classList.add('card-enter');
+                container.appendChild(card);
+            });
 
-    flashcards.forEach((item, index) => {
-        const card = createFlashcard(item, index);
-        card.classList.add('card-enter');
-        container.appendChild(card);
-    });
+            updateProgress();
+        })
+        .catch(err => console.error("Error loading flashcards:", err));
 
     // Event listeners
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);

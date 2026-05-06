@@ -158,13 +158,9 @@ fun FlashcardItem(
 
                     Spacer(Modifier.height(12.dp))
 
-                    Text(
+                    FormulaText(
                         text = flashcard.answer,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = White,
-                        textAlign = TextAlign.Center,
-                        fontFamily = FontFamily.Monospace
+                        color = White
                     )
 
                     Spacer(Modifier.height(12.dp))
@@ -188,5 +184,92 @@ fun getCategoryColor(category: String): Color {
         "Fórmulas" -> CategoryFormulas
         "Solubilidad" -> Cyan
         else -> Indigo
+    }
+}
+
+@Composable
+fun FormulaText(text: String, color: Color) {
+    val lines = text.split("\n")
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        for (line in lines) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                val fracRegex = "<frac>(.*?)\\|(.*?)</frac>".toRegex()
+                var lastIndex = 0
+                val matches = fracRegex.findAll(line).toList()
+                
+                if (matches.isEmpty()) {
+                    Text(
+                        text = line,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = color,
+                        textAlign = TextAlign.Center,
+                        fontFamily = FontFamily.Monospace
+                    )
+                } else {
+                    matches.forEach { matchResult ->
+                        val normalText = line.substring(lastIndex, matchResult.range.first)
+                        if (normalText.isNotEmpty()) {
+                            Text(
+                                text = normalText,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = color,
+                                textAlign = TextAlign.Center,
+                                fontFamily = FontFamily.Monospace
+                            )
+                        }
+                        val num = matchResult.groupValues[1]
+                        val den = matchResult.groupValues[2]
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(horizontal = 4.dp).width(IntrinsicSize.Max)
+                        ) {
+                            Text(
+                                text = num,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = color,
+                                fontFamily = FontFamily.Monospace
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(2.dp)
+                                    .background(color)
+                            )
+                            Text(
+                                text = den,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = color,
+                                fontFamily = FontFamily.Monospace
+                            )
+                        }
+                        lastIndex = matchResult.range.last + 1
+                    }
+                    val endText = line.substring(lastIndex)
+                    if (endText.isNotEmpty()) {
+                        Text(
+                            text = endText,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = color,
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily.Monospace
+                        )
+                    }
+                }
+            }
+            if (line != lines.last()) {
+                Spacer(Modifier.height(4.dp))
+            }
+        }
     }
 }

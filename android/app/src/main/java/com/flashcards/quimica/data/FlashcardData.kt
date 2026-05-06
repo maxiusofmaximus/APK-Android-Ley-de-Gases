@@ -28,27 +28,27 @@ val flashcards = listOf(
     Flashcard("Constante R", "0.082 L·atm/mol·K", "Constantes", "®️"),
 
     Flashcard("Ley de Boyle", "V₁P₁ = V₂P₂\n(T y n constantes)", "Leyes", "📖"),
-    Flashcard("Ley de Charles", "V₁/T₁ = V₂/T₂\n(P y n constantes)", "Leyes", "📖"),
-    Flashcard("Ley de Gay-Lussac", "P₁/T₁ = P₂/T₂\n(V y n constantes)", "Leyes", "📖"),
+    Flashcard("Ley de Charles", "<frac>V₁|T₁</frac> = <frac>V₂|T₂</frac>\n(P y n constantes)", "Leyes", "📖"),
+    Flashcard("Ley de Gay-Lussac", "<frac>P₁|T₁</frac> = <frac>P₂|T₂</frac>\n(V y n constantes)", "Leyes", "📖"),
     Flashcard("Gas Ideal", "PV = nRT", "Leyes", "📖"),
 
     // NUEVAS
     Flashcard("Ley de Dalton", "PT = P1 + P2 + P3...", "Leyes", "📖"),
     Flashcard("Presiones Parciales", "Pi = Xi · PT", "Leyes", "📖"),
 
-    Flashcard("Densidad de un gas", "P = dRT / M", "Leyes", "📖"),
-    Flashcard("Peso Molecular", "PV = mRT / M", "Leyes", "📖"),
+    Flashcard("Densidad de un gas", "P = <frac>dRT|M</frac>", "Leyes", "📖"),
+    Flashcard("Peso Molecular", "PV = <frac>mRT|M</frac>", "Leyes", "📖"),
 
     // FORMULAS
-    Flashcard("Porcentaje m/m", "% m/m = (g sto/g sln) * 100", "Fórmulas", "⚗️"),
-    Flashcard("Porcentaje V/V", "% V/V = (mL sto/mL sln) * 100", "Fórmulas", "⚗️"),
-    Flashcard("Porcentaje m/V", "% m/V = (g sto/mL sln) * 100", "Fórmulas", "⚗️"),
-    Flashcard("Molaridad", "M = mol sto/L sln", "Fórmulas", "⚗️"),
-    Flashcard("Molaridad (extendida)", "M = masa sto/(PM sto) V sln", "Fórmulas", "⚗️"),
-    Flashcard("molalidad", "m = mol sto/Kg ste", "Fórmulas", "⚗️"),
-    Flashcard("Partes por millón", "ppm = mg sto/L sln", "Fórmulas", "⚗️"),
+    Flashcard("Porcentaje m/m", "% m/m = <frac>g sto|g sln</frac> * 100", "Fórmulas", "⚗️"),
+    Flashcard("Porcentaje V/V", "% V/V = <frac>mL sto|mL sln</frac> * 100", "Fórmulas", "⚗️"),
+    Flashcard("Porcentaje m/V", "% m/V = <frac>g sto|mL sln</frac> * 100", "Fórmulas", "⚗️"),
+    Flashcard("Molaridad", "M = <frac>mol sto|L sln</frac>", "Fórmulas", "⚗️"),
+    Flashcard("Molaridad (extendida)", "M = <frac>masa sto|(PM sto) V sln</frac>", "Fórmulas", "⚗️"),
+    Flashcard("molalidad", "m = <frac>mol sto|Kg ste</frac>", "Fórmulas", "⚗️"),
+    Flashcard("Partes por millón", "ppm = <frac>mg sto|L sln</frac>", "Fórmulas", "⚗️"),
     Flashcard("Diluciones", "C1 * V1 = C2 * V2", "Fórmulas", "⚗️"),
-    Flashcard("Fracción molar", "X_A = mol A/moles totales\nX_B = mol B/moles totales\nX_A + X_B = 1", "Fórmulas", "⚗️"),
+    Flashcard("Fracción molar", "X_A = <frac>mol A|moles totales</frac>\nX_B = <frac>mol B|moles totales</frac>\nX_A + X_B = 1", "Fórmulas", "⚗️"),
 
     // SOLUBILIDAD
     Flashcard("Tiene un metal del grupo IA", "Soluble", "Solubilidad", "🧪"),
