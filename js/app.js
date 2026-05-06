@@ -25,6 +25,18 @@ const flashcards = [
     { q: "Densidad de un gas", a: "P = dRT / M", category: "leyes", icon: "📖" },
     { q: "Peso Molecular", a: "PV = mRT / M", category: "leyes", icon: "📖" },
 
+    { q: "Porcentaje m/m", a: "% m/m = (g sto/g sln) * 100", category: "Fórmulas", icon: "⚗️" },
+    { q: "Porcentaje V/V", a: "% V/V = (mL sto/mL sln) * 100", category: "Fórmulas", icon: "⚗️" },
+    { q: "Porcentaje m/V", a: "% m/V = (g sto/mL sln) * 100", category: "Fórmulas", icon: "⚗️" },
+    { q: "Molaridad", a: "M = mol sto/L sln", category: "Fórmulas", icon: "⚗️" },
+    { q: "Molaridad (extendida)", a: "M = masa sto/(PM sto) V sln", category: "Fórmulas", icon: "⚗️" },
+    { q: "molalidad", a: "<span style=\"font-family: 'Google Sans', sans-serif;\">m</span> = mol sto/Kg ste", category: "Fórmulas", icon: "⚗️" },
+    { q: "Partes por millón", a: "ppm = mg sto/L sln", category: "Fórmulas", icon: "⚗️" },
+    { q: "Diluciones", a: "C1 * V1 = C2 * V2", category: "Fórmulas", icon: "⚗️" },
+    {
+        q: "Fracción molar", a: "X<sub>A</sub> = mol A/moles totales<br> X<sub>B</sub> = mol B/moles totales<br> X<sub>A</sub> + X<sub>B</sub> = 1", category: "Fórmulas", icon: "⚗️"
+    },
+
     { q: "Tiene un metal del grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
     { q: "Tiene un nitrato", a: "Soluble", category: "solubilidad", icon: "🧪" },
     { q: "Es un halogenuro + Ag, Hg o Pb", a: "Insoluble", category: "solubilidad", icon: "🧪" },
@@ -88,15 +100,15 @@ function createFlashcard(item, index, noDelay = false) {
         if (card.classList.contains('flip')) {
             viewedCards.add(index);
             updateProgress();
-            
+
             // Exam logic trigger
             if (!document.getElementById('view-examen').classList.contains('d-none')) {
                 showExamFeedback();
             }
         } else {
-             if (!document.getElementById('view-examen').classList.contains('d-none')) {
-                 hideExamFeedback();
-             }
+            if (!document.getElementById('view-examen').classList.contains('d-none')) {
+                hideExamFeedback();
+            }
         }
     });
 
@@ -278,7 +290,7 @@ function initExamen() {
         [examenOrder[i], examenOrder[j]] = [examenOrder[j], examenOrder[i]];
     }
     currentExamenIndex = 0;
-    
+
     hideExamFeedback();
     document.getElementById('examen-end-message').classList.add('d-none');
     document.getElementById('examen-end-message').classList.remove('d-flex');
@@ -323,7 +335,7 @@ function updateFlashcardsData() {
             flashcards[idx].q = "1 atm en Pa";
             flashcards[idx].a = "101,325 Pa";
         }
-        
+
         const container = document.getElementById('flashcards-container');
         const oldCard = container.querySelector(`[data-index="${idx}"]`);
         if (oldCard) {
@@ -332,7 +344,7 @@ function updateFlashcardsData() {
             else newCard.classList.add('hidden');
             container.replaceChild(newCard, oldCard);
         }
-        
+
         if (!document.getElementById('view-examen').classList.contains('d-none') && examenOrder[currentExamenIndex] === idx) {
             renderExamenCard();
         }
@@ -415,7 +427,7 @@ function init() {
         let insertAt = currentExamenIndex + 1 + configRepeatAfter;
         if (insertAt > examenOrder.length) insertAt = examenOrder.length;
         examenOrder.splice(insertAt, 0, failedCardIdx);
-        
+
         currentExamenIndex++;
         renderExamenCard();
     });

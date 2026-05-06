@@ -12,6 +12,7 @@ enum class Category(val label: String, val emoji: String) {
     CONVERSIONES("Conversiones", "🔄"),
     CONSTANTES("Constantes", "#️⃣"),
     LEYES("Leyes", "📖"),
+    FORMULAS("Fórmulas", "⚗️"),
     SOLUBILIDAD("Solubilidad", "🧪")
 }
 
@@ -37,6 +38,17 @@ val flashcards = listOf(
 
     Flashcard("Densidad de un gas", "P = dRT / M", "Leyes", "📖"),
     Flashcard("Peso Molecular", "PV = mRT / M", "Leyes", "📖"),
+
+    // FORMULAS
+    Flashcard("Porcentaje m/m", "% m/m = (g sto/g sln) * 100", "Fórmulas", "⚗️"),
+    Flashcard("Porcentaje V/V", "% V/V = (mL sto/mL sln) * 100", "Fórmulas", "⚗️"),
+    Flashcard("Porcentaje m/V", "% m/V = (g sto/mL sln) * 100", "Fórmulas", "⚗️"),
+    Flashcard("Molaridad", "M = mol sto/L sln", "Fórmulas", "⚗️"),
+    Flashcard("Molaridad (extendida)", "M = masa sto/(PM sto) V sln", "Fórmulas", "⚗️"),
+    Flashcard("molalidad", "m = mol sto/Kg ste", "Fórmulas", "⚗️"),
+    Flashcard("Partes por millón", "ppm = mg sto/L sln", "Fórmulas", "⚗️"),
+    Flashcard("Diluciones", "C1 * V1 = C2 * V2", "Fórmulas", "⚗️"),
+    Flashcard("Fracción molar", "X_A = mol A/moles totales\nX_B = mol B/moles totales\nX_A + X_B = 1", "Fórmulas", "⚗️"),
 
     // SOLUBILIDAD
     Flashcard("Tiene un metal del grupo IA", "Soluble", "Solubilidad", "🧪"),
