@@ -33,9 +33,7 @@ const flashcards = [
     { q: "molalidad", a: "<span style=\"font-family: 'Google Sans', sans-serif;\">m</span> = mol sto/Kg ste", category: "Fórmulas", icon: "⚗️" },
     { q: "Partes por millón", a: "ppm = mg sto/L sln", category: "Fórmulas", icon: "⚗️" },
     { q: "Diluciones", a: "C1 * V1 = C2 * V2", category: "Fórmulas", icon: "⚗️" },
-    {
-        q: "Fracción molar", a: "X<sub>A</sub> = mol A/moles totales<br> X<sub>B</sub> = mol B/moles totales<br> X<sub>A</sub> + X<sub>B</sub> = 1", category: "Fórmulas", icon: "⚗️"
-    },
+    { q: "Fracción molar", a: "X<sub>A</sub> = mol A/moles totales<br> X<sub>B</sub> = mol B/moles totales<br> X<sub>A</sub> + X<sub>B</sub> = 1", category: "Fórmulas", icon: "⚗️" },
 
     { q: "Tiene un metal del grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
     { q: "Tiene un nitrato", a: "Soluble", category: "solubilidad", icon: "🧪" },
