@@ -43,7 +43,7 @@
     },
     {
         "q": "Constante R",
-        "a": "0.082 L · <div class=\"frac\"><span>atm</span><span>mol · K</span></div>",
+        "a": "0.082 L x <div class=\"frac\"><span>atm</span><span>mol·K</span></div>",
         "category": "constantes",
         "icon": "®️"
     },
