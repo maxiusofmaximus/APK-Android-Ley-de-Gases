@@ -103,13 +103,13 @@
     },
     {
         "q": "Porcentaje V/V",
-        "a": "<div class=\"frac\"><span> % V / V</span></div> = <div class=\"frac\"><span>mL sto</span><span>mL sln</span></div> * 100",
+        "a": "<div class=\"frac\"><span> % V</span><span>V</span></div> = <div class=\"frac\"><span>mL sto</span><span>mL sln</span></div> * 100",
         "category": "fórmulas",
         "icon": "⚗️"
     },
     {
         "q": "Porcentaje m/V",
-        "a": "<div class=\"frac\"><span> % m / V</span></div> = <div class=\"frac\"><span>g sto</span><span>mL sln</span></div> * 100",
+        "a": "<div class=\"frac\"><span> % m</span><span>V</span></div> = <div class=\"frac\"><span>g sto</span><span>mL sln</span></div> * 100",
         "category": "fórmulas",
         "icon": "⚗️"
     },
