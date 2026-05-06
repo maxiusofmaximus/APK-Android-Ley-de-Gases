@@ -25,14 +25,14 @@ const flashcards = [
     { q: "Densidad de un gas", a: "P = dRT / M", category: "leyes", icon: "📖" },
     { q: "Peso Molecular", a: "PV = mRT / M", category: "leyes", icon: "📖" },
 
-    { q: "Porcentaje m/m", a: "% m/m = (g sto/g sln) * 100", category: "Fórmulas", icon: "⚗️" },
-    { q: "Porcentaje V/V", a: "% V/V = (mL sto/mL sln) * 100", category: "Fórmulas", icon: "⚗️" },
-    { q: "Porcentaje m/V", a: "% m/V = (g sto/mL sln) * 100", category: "Fórmulas", icon: "⚗️" },
-    { q: "Molaridad", a: "M = mol sto/L sln", category: "Fórmulas", icon: "⚗️" },
-    { q: "Molaridad (extendida)", a: "M = masa sto/(PM sto) V sln", category: "Fórmulas", icon: "⚗️" },
-    { q: "molalidad", a: "<span style=\"font-family: 'Google Sans', sans-serif;\">m</span> = mol sto/Kg ste", category: "Fórmulas", icon: "⚗️" },
-    { q: "Partes por millón", a: "ppm = mg sto/L sln", category: "Fórmulas", icon: "⚗️" },
-    { q: "Diluciones", a: "C1 * V1 = C2 * V2", category: "Fórmulas", icon: "⚗️" },
+    { q: "Porcentaje m/m", a: "% m/m = (g sto/g sln) * 100", category: "fórmulas", icon: "⚗️" },
+    { q: "Porcentaje V/V", a: "% V/V = (mL sto/mL sln) * 100", category: "fórmulas", icon: "⚗️" },
+    { q: "Porcentaje m/V", a: "% m/V = (g sto/mL sln) * 100", category: "fórmulas", icon: "⚗️" },
+    { q: "Molaridad", a: "M = mol sto/L sln", category: "fórmulas", icon: "⚗️" },
+    { q: "Molaridad (extendida)", a: "M = masa sto/(PM sto) V sln", category: "fórmulas", icon: "⚗️" },
+    { q: "molalidad", a: "<span style=\"font-family: 'Google Sans', sans-serif;\">m</span> = mol sto/Kg ste", category: "fórmulas", icon: "⚗️" },
+    { q: "Partes por millón", a: "ppm = mg sto/L sln", category: "fórmulas", icon: "⚗️" },
+    { q: "Diluciones", a: "C1 * V1 = C2 * V2", category: "fórmulas", icon: "⚗️" },
     { q: "Fracción molar", a: "X<sub>A</sub> = mol A/moles totales<br> X<sub>B</sub> = mol B/moles totales<br> X<sub>A</sub> + X<sub>B</sub> = 1", category: "Fórmulas", icon: "⚗️" },
 
     { q: "Tiene un metal del grupo IA", a: "Soluble", category: "solubilidad", icon: "🧪" },
@@ -69,19 +69,14 @@ function createFlashcard(item, index, noDelay = false) {
         card.style.setProperty('--card-delay', `0s`);
     }
 
-    const categoryColors = {
-        conversiones: 'var(--cat-conversiones)',
-        constantes: 'var(--cat-constantes)',
-        leyes: 'var(--cat-leyes)',
-        formulas: 'var(--cat-formulas)',
-        solubilidad: 'var(--cat-solubilidad)'
-    };
+    const catSlug = item.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+    const badgeColor = `var(--cat-${catSlug}, var(--cat-default, #8b5cf6))`; // Fallback para futuras categorías
 
     card.innerHTML = `
         <div class="card-inner">
             <div class="card-front">
                 <span class="card-icon">${item.icon}</span>
-                <span class="card-category-badge" style="background: ${categoryColors[item.category]}">${item.category}</span>
+                <span class="card-category-badge" style="background: ${badgeColor}">${item.category}</span>
                 <span class="card-question">${item.q}</span>
                 <span class="card-hint"><i class="bi bi-hand-index"></i> Toca para ver</span>
             </div>
