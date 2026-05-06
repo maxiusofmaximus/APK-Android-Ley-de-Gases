@@ -97,7 +97,7 @@
     },
     {
         "q": "Porcentaje m/m",
-        "a": "<div class=\"frac\"><span> % m / </span></div> = <div class=\"frac\">m<span>g sto</span><span>g sln</span></div> * 100",
+        "a": "<div class=\"frac\"><span> % m</span><span>m</span></div> = <div class=\"frac\"><span>g sto</span><span>g sln</span></div> * 100",
         "category": "fórmulas",
         "icon": "⚗️"
     },
